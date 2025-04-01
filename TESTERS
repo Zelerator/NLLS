@@ -1533,8 +1533,8 @@ local function showOptionsGui()
         
                 -- Start or stop the auto-equip/unequip loop
                 while AutoEquipUnequip do
-                    equipTools(30) -- Equip all non-blacklisted tools
-                    task.wait() -- Wait for 2 seconds (adjust as needed)
+                    equipTools() -- Equip all non-blacklisted tools
+                    task.wait(30) -- Wait for 2 seconds (adjust as needed)
                     unequipTools() -- Unequip all non-blacklisted tools
                     task.wait() -- Wait for 2 seconds (adjust as needed)
                 end
