@@ -35,7 +35,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
-local validKeys = { "123321456654789987987789654456321123", "  "}
+local validKeys = { "123321456654789987987789654456321123", "ss"}
 
 -- Function to show options GUI
 local function showOptionsGui()
@@ -1467,19 +1467,17 @@ local function showOptionsGui()
         
         local Players = game:GetService("Players")
         local LocalPlayer = Players.LocalPlayer
-        local blacklist = {"Athena", "Cronus", "Hades", "Hercules", "Poseidon", "Zeus", "Ares", "Fist","Foot"}
+        local blacklist = {"Athena", "Cronus", "Hades", "Hercules", "Poseidon", "Zeus", "Ares", "Fist", "Foot"}
         
         getgenv().AutoEquipUnequip = false
         
         local function equipTools()
-            if not LocalPlayer.Character then return end -- Prevents the nil error
+            if not LocalPlayer.Character then return end
         
             local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
             if inventory then
                 for _, item in ipairs(inventory:GetChildren()) do
-                    -- Check if the item is a tool and not in the blacklist
                     if item:IsA("Tool") and not table.find(blacklist, item.Name) then
-                        -- Equip the tool
                         LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(item)
                     end
                 end
@@ -1487,14 +1485,22 @@ local function showOptionsGui()
         end
         
         local function unequipTools()
-            if not LocalPlayer.Character then return end -- Prevents the nil error
+            if not LocalPlayer.Character then return end
         
             local character = LocalPlayer.Character
             for _, item in ipairs(character:GetChildren()) do
-                -- Check if the item is a tool and not in the blacklist
                 if item:IsA("Tool") and not table.find(blacklist, item.Name) then
-                    -- Unequip the tool (move it back to the backpack)
                     item.Parent = LocalPlayer:FindFirstChildOfClass("Backpack")
+                end
+            end
+        end
+        
+        local function equipFoot()
+            local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+            if inventory then
+                local foot = inventory:FindFirstChild("Foot")
+                if foot and foot:IsA("Tool") then
+                    LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(foot)
                 end
             end
         end
@@ -1506,15 +1512,24 @@ local function showOptionsGui()
             Callback = function(Value)
                 getgenv().AutoEquipUnequip = Value
         
-                -- Start or stop the auto-equip/unequip loop
-                while AutoEquipUnequip do
-                    equipTools() -- Equip all non-blacklisted tools
-                    task.wait(15) -- Wait for 2 seconds (adjust as needed)
-                    unequipTools() -- Unequip all non-blacklisted tools
-                    task.wait() -- Wait for 2 seconds (adjust as needed)
-                end
+                task.spawn(function()
+                    while AutoEquipUnequip do
+                        equipTools()
+                        task.wait(18)
+        
+                        unequipTools()
+                        task.wait(0.1)
+        
+                        equipFoot()
+                        task.wait(0.5)
+        
+                        unequipTools()
+                        task.wait(0.1)
+                    end
+                end)
             end,
         })
+        
         
         
         
