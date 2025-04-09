@@ -35,7 +35,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
-local validKeys = { "fb1ou6baep", "ss", " "}
+local validKeys = { "Aster1sk", "ss", " "}
 
 -- Function to show options GUI
 local function showOptionsGui()
@@ -1528,6 +1528,142 @@ local function showOptionsGui()
                         task.wait(0.1)
                     end
                 end)
+            end,
+        })
+
+        local webhookConnection = nil
+        local webhookGui = nil
+        local webhookURL = nil
+        local shouldSend = false
+        
+        -- Function to send stats (unchanged if already working)
+        local function sendStats()
+            if not webhookURL then return end
+        
+            local player = game:GetService("Players").LocalPlayer
+            local leaderstats = player:WaitForChild("leaderstats")
+            local muscle = leaderstats:FindFirstChild("Muscle") and leaderstats.Muscle.Value or 0
+            local stage = leaderstats:FindFirstChild("Stage") and leaderstats.Stage.Value or 0
+            local username = player.Name
+            local cashText = player.PlayerGui.Main_Gui.DataMenu_Frame.Cash.Status.Text
+            local displayCash = cashText:gsub("0%.00%s*", "")
+        
+            local muscleDisplay = (muscle == 0) and "Concealed :lock:" or formatBigNumber(muscle)
+        
+            local data = {
+                ["content"] = "**:bust_in_silhouette: Username:** " .. username ..
+                            "\n**:muscle: Muscle Stat:** " .. muscleDisplay ..
+                            "\n**:cyclone: Stage:** " .. stage ..
+                            "\n**:moneybag: Cash:** " .. displayCash,
+                ["username"] = "Stat Logger",
+                ["avatar_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png"
+            }
+        
+            local headers = {["Content-Type"] = "application/json"}
+            local body = game:GetService("HttpService"):JSONEncode(data)
+        
+            local success, err = pcall(function()
+                http_request({
+                    Url = webhookURL,
+                    Method = "POST",
+                    Headers = headers,
+                    Body = body
+                })
+            end)
+        
+            if not success then
+                warn("Failed to send webhook:", err)
+            else
+                print("Webhook sent successfully!")
+            end
+        end
+        
+        -- Function to start the webhook timer loop
+        local function startWebhookLoop()
+            if webhookConnection then
+                webhookConnection:Disconnect()
+            end
+        
+            _G._lastSend = 0
+            webhookConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                if shouldSend and webhookURL and tick() - _G._lastSend >= 600 then -- every 10 minutes
+                    _G._lastSend = tick()
+                    sendStats()
+                end
+            end)
+        end
+        
+        -- Function to create the GUI and handle input
+        local function createWebhookGui()
+            local screenGui = Instance.new("ScreenGui")
+            screenGui.Name = "WebhookInputGui"
+            screenGui.ResetOnSpawn = false
+            screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+            webhookGui = screenGui
+        
+            local frame = Instance.new("Frame")
+            frame.Size = UDim2.new(0, 400, 0, 150)
+            frame.Position = UDim2.new(0.5, -200, 0.5, -75)
+            frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            frame.AnchorPoint = Vector2.new(0.5, 0.5)
+            frame.Active = true
+            frame.Draggable = true
+            frame.Parent = screenGui
+        
+            local uiCorner = Instance.new("UICorner")
+            uiCorner.CornerRadius = UDim.new(0, 10)
+            uiCorner.Parent = frame
+        
+            local textBox = Instance.new("TextBox")
+            textBox.PlaceholderText = "Enter your Discord webhook URL"
+            textBox.Size = UDim2.new(1, -40, 0, 40)
+            textBox.Position = UDim2.new(0, 20, 0, 20)
+            textBox.Text = ""
+            textBox.TextColor3 = Color3.new(1, 1, 1)
+            textBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            textBox.ClearTextOnFocus = false
+            textBox.Parent = frame
+        
+            local submitButton = Instance.new("TextButton")
+            submitButton.Text = "Set Webhook"
+            submitButton.Size = UDim2.new(1, -40, 0, 35)
+            submitButton.Position = UDim2.new(0, 20, 0, 75)
+            submitButton.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+            submitButton.TextColor3 = Color3.new(1, 1, 1)
+            submitButton.Parent = frame
+        
+            -- Button logic
+            submitButton.MouseButton1Click:Connect(function()
+                if textBox.Text ~= "" then
+                    webhookURL = textBox.Text
+                    print("Webhook URL set to:", webhookURL)
+                    screenGui:Destroy()
+                    startWebhookLoop()
+                end
+            end)
+        end
+        
+        -- Finally — your toggle
+        local Toggle = SetTab:CreateToggle({
+            Name = "Enable Webhook Logger",
+            CurrentValue = false,
+            Flag = "WebhookToggle",
+            Callback = function(Value)
+                shouldSend = Value
+                if shouldSend then
+                    createWebhookGui()
+                else
+                    -- stop everything
+                    if webhookConnection then
+                        webhookConnection:Disconnect()
+                        webhookConnection = nil
+                    end
+                    if webhookGui then
+                        webhookGui:Destroy()
+                        webhookGui = nil
+                    end
+                    webhookURL = nil
+                end
             end,
         })
         
