@@ -35,7 +35,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
-local validKeys = { "123321456654789987987789654456321123", "ss"}
+local validKeys = { "123321456654789987987789654456321123", "ss", " "}
 
 -- Function to show options GUI
 local function showOptionsGui()
@@ -839,10 +839,12 @@ local function showOptionsGui()
                         "Godly 6th Class", "Godly 7th Class", "Godly 8th Class", "Godly 9th Class", 
                         "1ST SUPER CLASS", "2ND SUPER CLASS", "3RD SUPER CLASS", "4TH SUPER CLASS",
                         "5TH SUPER CLASS", "6TH SUPER CLASS", "7TH SUPER CLASS", " 8TH SUPER CLASS",
-                        "9TH SUPER CLASS", "10TH SUPER CLASS", "11TH SUPER CLASS", "ULTIMATE 1ST CLASS",
-                        "ULTIMATE 2ND CLASS", "ULTIMATE 3RD CLASS", "ULTIMATE 4TH CLASS", 
-                        "ULTIMATE 5TH CLASS", "ULTIMATE 6TH CLASS", "ULTIMATE 7TH CLASS", 
-                        "ULTIMATE 8TH CLASS", "ULTIMATE 9TH CLASS", "ULTIMATE SUPER CLASS"
+                        "9TH SUPER CLASS", "10TH SUPER CLASS", "11TH SUPER CLASS", "1ST  ULTIMATE CLASS",
+                        "2ND ULTIMATE CLASS", "3RD ULTIMATE CLASS", "4TH  ULTIMATE CLASS", 
+                        "5TH ULTIMATE CLASS", "6TH ULTIMATE CLASS", "ULTIMATE 7TH CLASS", 
+                        "8TH ULTIMATE CLASS", "9TH ULTIMATE CLASS", "1ST SUPREME CLASS", 
+                        "2ND SUPREME CLASS", "3RD SUPREME CLASS", "4TH SUPREME CLASS", "5TH SUPREME CLASS",
+                        "6TH SUPREME CLASS", "7TH SUPREME CLASS", "8TH SUPREME CLASS", "9TH SUPREME CLASS"
                     }
         
                     -- Find the highest weight the player has
