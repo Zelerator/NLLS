@@ -10,6 +10,8 @@ elseif playerId == 2647296618 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 2976399796 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
+elseif playerId == 1221182388 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 else
 local function onChatMessage(message, speaker)
     if message == "Ax1" then
