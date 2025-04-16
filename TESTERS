@@ -424,7 +424,7 @@ local function showOptionsGui()
         local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/ASKID/refs/heads/main/ASAIYAUI'))()
         
         local Window = Rayfield:CreateWindow({
-            Name = "Asaiya Script for No limit and Lifting Simulator [BETA]",
+            Name = "Asaiya Script for No limit and Lifting Simulator [ALPHA]",
             Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
             LoadingTitle = "Script for NLLS",
             LoadingSubtitle = "Made by Asaiya",
@@ -634,7 +634,7 @@ local function showOptionsGui()
         local selectedMode = "None"
         
         local Dropdown = MainTab:CreateDropdown({
-            Name = "Choose Gain Muscle (30+ FPS MINIMUM)",
+            Name = "Choose Gain Muscle",
             Options = {
                 "None",
                 "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)",
@@ -670,7 +670,7 @@ local function showOptionsGui()
                             elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, Ridiculously fast & Unsafe)" then
                                 task.wait() -- No delay (instant execution)
                             elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)" then
-                                task.wait(0.43)
+                                task.wait(0.44)
                             end
                         end
                     end)
