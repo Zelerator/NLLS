@@ -1,15 +1,15 @@
 local playerId = game.Players.LocalPlayer.UserId
 
 if playerId == 7801483850 then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 997344088 then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 2647296618 then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 2647296618 then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
-elseif playerId == 2976399796then
-    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Custom%20Key'))()
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
+elseif playerId == 2976399796 then
+    loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 else
 local function onChatMessage(message, speaker)
     if message == "Ax1" then
