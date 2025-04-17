@@ -785,7 +785,7 @@ local function showOptionsGui()
                         if     selectedSellMode == "Instant" then
                             interval = 0.1
                         elseif     selectedSellMode == "Half second" then
-                                interval = 0.5
+                                interval = 0.6
                         elseif selectedSellMode == "Every 1 Second" then
                             interval = 1
                         elseif selectedSellMode == "Every 3 Seconds" then
