@@ -466,7 +466,7 @@ local function showOptionsGui()
      })
 
      local MainTab = Window:CreateTab("💪 Automatics💪", nil)
-     local TryTab = Window:CreateTab("🏝️🦶[New!] Bloodline & Island🏝️🦶", nil)
+     local TryTab = Window:CreateTab("🏝️Bloodline & Island🏝️", nil)
      local PlayerTab = Window:CreateTab("🤼Players🤼", nil)
      local SetTab = Window:CreateTab("🛠️Settings🛠️", nil)
      local MiscTab = Window:CreateTab("✅Information✅", nil)
