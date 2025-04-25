@@ -59,4 +59,3 @@ wait(3600)
 end
 
 screenGui:Destroy()
-end
