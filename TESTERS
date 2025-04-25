@@ -14,7 +14,7 @@ elseif playerId == 1221182388 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 7801483850 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
-elseif playerId == 7801483850 then
+elseif playerId == 8286287828 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
 elseif playerId == 1114772879 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless%20WholeScript'))()
