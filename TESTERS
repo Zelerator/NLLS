@@ -61,7 +61,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
-local validKeys = { "No key", "ss", " "}
+local validKeys = { "Happy Birthday Exploit", "ss", " "}
 
 -- Function to show options GUI
 local function showOptionsGui()
