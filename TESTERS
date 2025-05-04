@@ -673,7 +673,7 @@ local function showOptionsGui()
                         elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, Ridiculously fast & Unsafe)" then
                             task.wait() -- No delay (instant execution)
                         elseif selectedMode == "Gain Muscle (Fast Lifter Gamepass, No RollBack & Safe)" then
-                            task.wait(0.43)
+                            task.wait(0.45)
                         end
                     end
                 end)
