@@ -1,6 +1,6 @@
 local playerId = game.Players.LocalPlayer.UserId
 
-if playerId == 5398730968 then
+if playerId == 655500736 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless'))()
 elseif playerId == 997344088 then
     loadstring(game:HttpGet('https://raw.githubusercontent.com/Zelerator/UniService/refs/heads/main/Keyless'))()
@@ -2808,9 +2808,9 @@ KeyInput.FocusLost:Connect(function(enterPressed)
             local originalText = KeyInput.Text
             KeyInput.Text = "Incorrect Key"
             task.wait(1)
-            KeyInput.Text = "Join our Discord Server!"
+            KeyInput.Text = "Asaiya is Disontinued!"
             task.wait(1)
-            KeyInput.Text = "https://discord.com/invite/48TQ27f8qH"
+            KeyInput.Text = "Thanks for using our script!"
             task.wait(2)
             KeyInput.Text = originalText -- Restore input for retry
         end
